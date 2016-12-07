@@ -1,8 +1,8 @@
 # bussinessgame
 
 Created by <br>
-  Vilius Zlibinas
-  Lynette Tolner
-  Mimosa Lehtinen
-  Sandro Vrsalovic
+  Vilius Zlibinas <br>
+  Lynette Tolner <br>
+  Mimosa Lehtinen <br>
+  Sandro Vrsalovic <br>
   Rutger Regtop
