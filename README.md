@@ -1,6 +1,6 @@
 # bussinessgame
 
-Created by <br>
+Created by: <br>
   Vilius Zlibinas <br>
   Lynette Tolner <br>
   Mimosa Lehtinen <br>
