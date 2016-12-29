@@ -16,6 +16,7 @@ import openfl.display.Tilemap;
 
 import openfl.geom.Rectangle;
 
+
 class Player extends Sprite {
 	
 	var lastUpdate : Int;
@@ -26,13 +27,11 @@ class Player extends Sprite {
 	var isOnGround : Bool;
 
 	var playerHealth : Int = 100;
-	var playerDamage : Int = 30 + Math.ceil( 30 * Math.random() );
-
 
 	// tilesheet instance containing the sprite sheet
 	var tileSet : Tileset;
 
-	var tilemap : Tilemap;
+	public var character : Tilemap;
 
 	// variable determining frame rate of animations
 	static inline var fps : Int = 7;
@@ -59,7 +58,11 @@ class Player extends Sprite {
 	// determines which side the character faces
 	var faces : Int = 1;
 
+	var attackPressed : Bool;
 
+	public var projectile : Projectile;
+
+	var enemy : Array<Enemy>;
 
 	public function new () {
 
@@ -68,15 +71,15 @@ class Player extends Sprite {
 		var bitmapData : BitmapData = Assets.getBitmapData( "assets/CharacterSheet.png" );
 		tileSet = new Tileset( bitmapData );
 
-		tilemap = new Tilemap( 128, 128, tileSet);
+		character = new Tilemap( 128, 128, tileSet);
 
 		initializeSpriteSheet();
 
-		tilemap.addTile( new Tile( 0 ) );
+		character.addTile( new Tile( 0 ) );
 
-		addChild( tilemap );
+		addChild( character );
 
-		currentStateFrames = idleRightSequence;
+		currentStateFrames = idleLeftSequence;
 
 		this.addEventListener( Event.ENTER_FRAME, updates );
 		this.addEventListener( Event.ENTER_FRAME, update );
@@ -90,12 +93,17 @@ class Player extends Sprite {
 
 	}
 
+	public function setEnemyArray(a:Array<Enemy>)
+	{
+		enemy = a;
+	}
+
 	function initializeSpriteSheet() {
 
 		// frames are 128x128
 		for ( i in 0 ... frameCount ) {
 
-			tileSet.addRect( new Rectangle ( i * (128+1), 0, 128, 128 ) );
+			tileSet.addRect( new Rectangle ( i * 128, 0, 128, 128 ) );
 
 		}
 
@@ -114,8 +122,8 @@ class Player extends Sprite {
 			if( currentFrame >= currentStateFrames.length )
 				currentFrame = 0;
 
-			tilemap.removeTile( tilemap.getTileAt( 0 ) );
-			tilemap.addTile( new Tile( currentStateFrames[currentFrame] ) );
+			character.removeTile( character.getTileAt( 0 ) );
+			character.addTile( new Tile( currentStateFrames[currentFrame] ) );
 
 
 		}
@@ -134,13 +142,18 @@ class Player extends Sprite {
 
 		// key isn't pressed down 
 		keys[event.keyCode] = false;
+		if ( event.keyCode == 40 ) {
+
+			attackPressed = false;
+
+		}
 
 	}
 
 	function everyFrame( event : Event ) : Void {
 
 		// if the character is higher above ( less than) #
-		if ( tilemap.y < 450 ) {
+		if ( character.y < 450 ) {
 
 			// gravity applies, character isn't on ground
 			velocity.y += gravity;
@@ -151,19 +164,20 @@ class Player extends Sprite {
 
 			// if character is on the level above, he is on ground
 			velocity.y = 0;
+			character.y = 450;
 			isOnGround = true;
 
 		}
 
-		if ( tilemap.x < -45 ) {
+		if ( character.x < -45 ) {
 
-			tilemap.x += 8;
+			character.x += 8;
 
 		}
 
-		if ( tilemap.x > (stage.stageWidth -77) ) {
+		if ( character.x > (stage.stageWidth -77) ) {
 
-			tilemap.x -= 8;
+			character.x -= 8;
 
 		}
 
@@ -197,21 +211,33 @@ class Player extends Sprite {
 		}
 		
 
-		if (keys[32] && isOnGround || keys[38] && isOnGround ) {
+		if ((keys[32] && isOnGround) || (keys[38] && isOnGround)) {
 
-			velocity.y -= 10;
+			velocity.y -= 16;
 
 		}
 
-		if (keys[40] && isOnGround) {
+		character.y += velocity.y;
+		character.x += velocity.x;
 
-			
-			
+		if (keys[40] && isOnGround && !attackPressed) {
+
+			// play attack animation
+		
+			projectile = new Projectile( enemy, this );
+			addChild( projectile );
+			projectile.x = character.x;
+			projectile.y = character.y;
+
+			attackPressed = true;
+
 		}
 
-		tilemap.y += velocity.y;
-		tilemap.x += velocity.x;
+	}
 
+	public function destroyProjectile()
+	{
+		removeChild(projectile);
 	}
 
 	function update ( event : Event ) {
