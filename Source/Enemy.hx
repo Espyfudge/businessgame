@@ -16,6 +16,7 @@ import openfl.display.Tilemap;
 import openfl.geom.Rectangle;
 import openfl.geom.Point;
 
+
 class Enemy extends Sprite {
 
 	var lastUpdate : Int;
@@ -62,9 +63,9 @@ class Enemy extends Sprite {
 
 	var mainStage : Stage;
 
-	var main : Main;
+	var main : screens.GameScreen;
 
-	public function new ( st : Main, playerRef : Player, enemyX : Int ) {
+	public function new ( st : screens.GameScreen, playerRef : Player, enemyX : Int ) {
 
 		super();
 

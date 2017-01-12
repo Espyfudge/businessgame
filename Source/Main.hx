@@ -1,47 +1,82 @@
 package;
 
-import openfl.Assets;
 import openfl.display.Sprite;
-import openfl.events.KeyboardEvent;
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-import openfl.Lib;
-import openfl.events.Event;
 
-class Main extends Sprite {
+import screens.*;
 
-	var player : Player;
-	public var enemy : Array<Enemy> = [];
-	var projectile : Projectile;
+/**
+ * Demonstrates a way to devide up an application into seperate screens represented by their own class.
+ *
+ * This Main class is a Singleton
+ */
+class Main extends Sprite 
+{
 
-  	public function new () {
-		
+	// which screen is visible/active now
+	private var currentScreen:Screen;
+
+	// the static variable pointing to the instance of this class
+	// see http://haxe.org/manual/class-field-property.html for the access modifiers
+	public static var instance(get, null):Main;
+
+	/** 
+	 * This constructor does not do much...
+	 */
+	private function new () 
+	{
 		super ();
-
-		var backData : BitmapData = Assets.getBitmapData( "assets/tempbackground.png" );
-		var back : Bitmap = new Bitmap( backData );
-		addChild( back );
-
-		player = new Player();
-		stage.addChild( player );
-
-		enemy[0] = new Enemy( this, player, 900 );
-		stage.addChild( enemy[0] );
-
-		enemy[1] = new Enemy( this, player, 1300 );
-		stage.addChild( enemy[1] );
-
-		enemy[2] = new Enemy( this, player, 1600 );
-		stage.addChild( enemy[2] );
-
-		player.setEnemyArray(enemy);
-
-		stage.addEventListener(KeyboardEvent.KEY_DOWN, player.keyDown );
-		stage.addEventListener(KeyboardEvent.KEY_UP, player.keyUp );
-		
-		
-		
 	}
 
+	/**
+	 * Load a screen.
+	 * If there is a screen active:
+	 * - it is removed first from the display list
+	 * - it's onDestroy function is called to do possible house keeping tasks
+	 *
+	 * Then a check is done for which screen to load, 
+	 *  it is instantitated, added to the display list and it's onLoad function is called.
+	 */
+	public function loadScreen( which:ScreenType )
+	{
+		if( currentScreen != null && contains( currentScreen ) )
+		{
+			removeChild( currentScreen );
+			currentScreen.onDestroy();
+		}
 
+		switch ( which ) 
+		{
+			case ScreenType.Menu:
+				currentScreen = new MenuScreen();
+			case ScreenType.Game:
+				currentScreen = new GameScreen();
+		}
+
+		addChild( currentScreen );
+		currentScreen.onLoad();
+	}
+
+	/**
+	 * The public access to the private instance variable
+	 *
+	 */
+	public static function get_instance():Main
+	{
+		if( instance == null )
+			instance = new Main();
+
+		return instance;
+	}
+
+	/**
+	 * The static function main is first called by the OpenFL framework
+	 * This allows for the actual constructor to be private, living up to the Singleton pattern
+	 */
+	public static function main()
+	{
+		var m:Main = Main.instance;
+		openfl.Lib.current.stage.addChild( m );
+
+		m.loadScreen( ScreenType.Menu );
+	}
 }
