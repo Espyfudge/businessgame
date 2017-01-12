@@ -78,14 +78,15 @@ class Enemy extends Sprite {
 		var bitmapData : BitmapData = Assets.getBitmapData( "assets/enemy_still_left.png" );
 		tileSet = new Tileset( bitmapData );
 
-		enemy = new Tilemap( 128, 128, tileSet);
+		enemy = new Tilemap( 256, 256, tileSet);
 
 		initializeSpriteSheet();
 
 		enemy.addTile( new Tile( 0 ) );
 
 		addChild( enemy );
-		enemy.x = enemyX;
+		enemy.x = -enemy.width / 2;
+		this.x = enemyX;
 
 		currentStateFrames = idleRightSequence;
 
@@ -106,7 +107,7 @@ class Enemy extends Sprite {
 		// frames are 128x128
 		for ( i in 0 ... frameCount ) {
 
-			tileSet.addRect( new Rectangle ( i * (128+1), 0, 128, 128 ) );
+			tileSet.addRect( new Rectangle ( i * 256, 0, 256, 256 ) );
 
 		}
 
@@ -137,7 +138,7 @@ class Enemy extends Sprite {
 	function everyFrame( event : Event ) : Void {
 
 		// if the enemy is higher above ( less than ) #
-		if ( enemy.y < 450 ) {
+		if ( this.y < 350 ) {
 
 			// gravity applies, enemy isn't on ground
 			velocity.y += gravity;
@@ -147,17 +148,17 @@ class Enemy extends Sprite {
 		else {
 
 			velocity.y = 0;
-			enemy.y = 450;
+			this.y = 350;
 			isOnGround = true;
 
 		}
 
-		if ( enemy.x > player.character.x ) {
+		if ( this.x > player.x ) {
 
 			velocity.x = -0.8;
 
 		}
-		else if (enemy.x < player.character.x ) {
+		else if (this.x < player.x ) {
 
 			velocity.x = 0.8;
 
@@ -168,8 +169,8 @@ class Enemy extends Sprite {
 
 		}
 		
-		enemy.y += velocity.y;
-		enemy.x += velocity.x;
+		this.y += velocity.y;
+		this.x += velocity.x;
 
 	}
 

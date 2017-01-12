@@ -11,7 +11,7 @@ class Projectile extends Sprite {
 	
 	var velocity : Point = new Point( 0, 0 );
 
-	public var tempCard : Bitmap;
+	public var bCard : Bitmap;
 
 	var enemy : Array<Enemy>; 
 
@@ -19,17 +19,25 @@ class Projectile extends Sprite {
 
 	var player:Player;
 
-	public function new ( en : Array<Enemy>, p:Player) {
+	public var ID : Int;
+
+	var left : Bool;
+
+	public function new (i : Int, en : Array<Enemy>, p:Player, b : Bool) {
 
 		super();
+
+		left = b;
+
+		ID = i;
 
 		enemy = en;
 		player = p;
 
-		var tempCardData : BitmapData = Assets.getBitmapData( "assets/tempcard.png" );
-		tempCard = new Bitmap( tempCardData );
-		tempCard.x = -tempCardData.width;
-		addChild( tempCard );
+		var bCardData : BitmapData = Assets.getBitmapData( "assets/bCard.png" );
+		bCard = new Bitmap( bCardData );
+		bCard.x = -bCardData.width;
+		addChild( bCard );
 
 		this.addEventListener(Event.ENTER_FRAME, shoot );
 
@@ -37,20 +45,26 @@ class Projectile extends Sprite {
 
 	public function shoot( event : Event ) {
 
-		tempCard.x += velocity.x;
+		this.x += (velocity.x * (left ? -1 : 1));
 		velocity.x = 5;
 
 		for ( badguy in enemy ) {
 
-			if ( tempCard.x >= badguy.enemy.x - 50 && tempCard.x <= badguy.enemy.x + 50 ) {
+			if ( this.x >= badguy.x - 30 && this.x <= badguy.x + 30 ) {
 
 				badguy.takeDamage( playerDamage + Math.ceil( 30 * Math.random() ) );
-				player.destroyProjectile();
+				player.destroyProjectile(ID);
 				this.removeEventListener(Event.ENTER_FRAME, shoot );
-
+				return;
 
 			}
 
+		}
+
+		if(this.x > 2000 || this.x < -2000)
+		{
+			player.destroyProjectile(ID);
+			this.removeEventListener(Event.ENTER_FRAME, shoot );
 		}
 		
 	}

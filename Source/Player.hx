@@ -60,7 +60,9 @@ class Player extends Sprite {
 
 	var attackPressed : Bool;
 
-	public var projectile : Projectile;
+	//public var projectile : Projectile;
+	public var projectiles : Array<Projectile> = [];
+	var projectileID : Int = 0;
 
 	var enemy : Array<Enemy>;
 
@@ -71,7 +73,7 @@ class Player extends Sprite {
 		var bitmapData : BitmapData = Assets.getBitmapData( "assets/CharacterSheet.png" );
 		tileSet = new Tileset( bitmapData );
 
-		character = new Tilemap( 128, 128, tileSet);
+		character = new Tilemap( 256, 256, tileSet);
 
 		initializeSpriteSheet();
 
@@ -103,7 +105,7 @@ class Player extends Sprite {
 		// frames are 128x128
 		for ( i in 0 ... frameCount ) {
 
-			tileSet.addRect( new Rectangle ( i * 128, 0, 128, 128 ) );
+			tileSet.addRect( new Rectangle ( i * 256, 0, 256, 256 ) );
 
 		}
 
@@ -224,10 +226,15 @@ class Player extends Sprite {
 
 			// play attack animation
 		
-			projectile = new Projectile( enemy, this );
+			var projectile : Projectile = new Projectile(projectileID, enemy, this, faces == 0);
+			projectiles[projectileID] = projectile;
+
+			projectileID++;
+
+			projectile.x = character.x + character.width;
+			projectile.y = character.y + character.height / 2;
 			addChild( projectile );
-			projectile.x = character.x;
-			projectile.y = character.y;
+			
 
 			attackPressed = true;
 
@@ -235,9 +242,10 @@ class Player extends Sprite {
 
 	}
 
-	public function destroyProjectile()
+	public function destroyProjectile(proj:Int)
 	{
-		removeChild(projectile);
+		removeChild(projectiles[proj]);
+		projectiles[proj] = null;
 	}
 
 	function update ( event : Event ) {
