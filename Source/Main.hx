@@ -10,6 +10,7 @@ import openfl.events.Event;
 class Main extends Sprite {
 
 	var player : Player;
+	var counter : Counter;
 
   	public function new () {
 		
@@ -20,6 +21,9 @@ class Main extends Sprite {
 		
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, player.keyDown );
 		stage.addEventListener(KeyboardEvent.KEY_UP, player.keyUp );
+		
+		counter = new Counter();
+		add(counter);
 		
 		
 	}
