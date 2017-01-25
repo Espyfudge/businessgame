@@ -6,25 +6,17 @@ import openfl.events.KeyboardEvent;
 import openfl.display.Bitmap;
 import openfl.Lib;
 import openfl.events.Event;
+import screens.*;
 
 class Main extends Sprite {
-
-	var player : Player;
+	
+	var sm:ScreenManager;
 
   	public function new () {
 		
 		super ();
-
-		player = new Player();
-		addChild( player );
 		
-		stage.addEventListener(KeyboardEvent.KEY_DOWN, player.keyDown );
-		stage.addEventListener(KeyboardEvent.KEY_UP, player.keyUp );
-		
-		
+		sm = new ScreenManager();
+		sm.loadScreen(ScreenType.Menu);
 	}
-
-	
-
-
 }
