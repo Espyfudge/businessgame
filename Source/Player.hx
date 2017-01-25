@@ -65,7 +65,9 @@ class Player extends Sprite {
 
 		super();
 
-		var bitmapData : BitmapData = Assets.getBitmapData( "assets/CharacterSheet.png" );
+		//var bitmapData : BitmapData = Assets.getBitmapData( "assets/CharacterSheet.png" );
+		var bitmapData : BitmapData = Assets.getBitmapData( "img/character.png" );
+
 		tileSet = new Tileset( bitmapData );
 
 		tilemap = new Tilemap( 128, 128, tileSet);

@@ -26,20 +26,20 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "198",
-			company: "Company Name",
-			file: "BusinessWaves",
+			build: "99",
+			company: "Lynette",
+			file: "BusinessMan",
 			fps: 60,
-			name: "BusinessWaves",
+			name: "BusinessMan",
 			orientation: "",
-			packageName: "com.sample.businesswaves",
+			packageName: "BusinessMan",
 			version: "1.0.0",
 			windows: [
 				
 				{
 					allowHighDPI: true,
 					antialiasing: 0,
-					background: 16777215,
+					background: 0,
 					borderless: false,
 					depthBuffer: false,
 					display: 0,
@@ -52,7 +52,7 @@ class ApplicationMain {
 					parameters: "{}",
 					resizable: true,
 					stencilBuffer: true,
-					title: "BusinessWaves",
+					title: "BusinessMan",
 					vsync: false,
 					width: 1920,
 					x: null,
@@ -72,7 +72,7 @@ class ApplicationMain {
 		
 		#if (js && html5)
 		#if (munit || utest)
-		embed (null, 1920, 1080, "FFFFFF");
+		embed (null, 1920, 1080, "000000");
 		#end
 		#else
 		create ();
@@ -97,27 +97,67 @@ class ApplicationMain {
 		var types = [];
 		
 		
-		urls.push ("assets/4chartile_test.png");
+		urls.push ("img/4chartile_test.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/BusinessChar.png");
+		urls.push ("img/BusinessChar.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/character.png");
+		urls.push ("img/character.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/character_left.png");
+		urls.push ("img/character_left.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/character_right.png");
+		urls.push ("img/character_right.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/Player.png");
+		urls.push ("img/charcater redo.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("img/Player.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("UI/Button_Down.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("UI/Button_Over.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("UI/Button_Up.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("UI/Icon_Mute.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("UI/Icon_Play.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("UI/Icon_Quit.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("UI/MenuScreen_0.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("UI/MenuScreen_1.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("UI/MenuScreen_2.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		

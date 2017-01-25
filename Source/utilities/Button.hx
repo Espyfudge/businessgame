@@ -40,31 +40,16 @@ class Button extends Sprite
 	 * @param callback	The function to be called when the button is clicked
 	 *
 	 */
-	public function new( up:BitmapData, over:BitmapData, down:BitmapData, label:String, callback:Void->Void )
+	public function new(callback:Void->Void )
 	{
 		super();
-
-		upBitmapData = up;
-		overBitmapData = over;
-		downBitmapData = down;
+		
+		upBitmapData = Assets.getBitmapData("UI/Button_Up.png");
+		overBitmapData = Assets.getBitmapData("UI/Button_Over.png");
+		downBitmapData =Assets.getBitmapData("UI/Button_Down.png");
 
 		image = new Bitmap( upBitmapData );
 		addChild( image );
-
-		if( label.length > 0 )
-		{
-			var tfmt:TextFormat = new TextFormat( Assets.getFont("fonts/Retro Computer_DEMO.ttf").fontName, 22, 0x000000, true, false, false, null, null, TextFormatAlign.CENTER );
-			var tf:TextField = new TextField();
-			tf.defaultTextFormat = tfmt;
-			tf.embedFonts = true;
-			tf.border = true;
-			tf.mouseEnabled = false;
-			tf.selectable = false;
-			tf.width = image.width;
-			tf.height = image.height;
-			tf.text = label;
-			addChild( tf );
-		}
 		
 		this.callback = callback;
 		

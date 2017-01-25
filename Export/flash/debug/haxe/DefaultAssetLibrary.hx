@@ -66,48 +66,118 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		#end
 		
 		#if flash
 		
-		className.set ("assets/4chartile_test.png", __ASSET__assets_4chartile_test_png);
-		type.set ("assets/4chartile_test.png", AssetType.IMAGE);
-		className.set ("assets/BusinessChar.png", __ASSET__assets_businesschar_png);
-		type.set ("assets/BusinessChar.png", AssetType.IMAGE);
-		className.set ("assets/character.png", __ASSET__assets_character_png);
-		type.set ("assets/character.png", AssetType.IMAGE);
-		className.set ("assets/character_left.png", __ASSET__assets_character_left_png);
-		type.set ("assets/character_left.png", AssetType.IMAGE);
-		className.set ("assets/character_right.png", __ASSET__assets_character_right_png);
-		type.set ("assets/character_right.png", AssetType.IMAGE);
-		className.set ("assets/Player.png", __ASSET__assets_player_png);
-		type.set ("assets/Player.png", AssetType.IMAGE);
+		className.set ("img/4chartile_test.png", __ASSET__img_4chartile_test_png);
+		type.set ("img/4chartile_test.png", AssetType.IMAGE);
+		className.set ("img/BusinessChar.png", __ASSET__img_businesschar_png);
+		type.set ("img/BusinessChar.png", AssetType.IMAGE);
+		className.set ("img/character.png", __ASSET__img_character_png);
+		type.set ("img/character.png", AssetType.IMAGE);
+		className.set ("img/character_left.png", __ASSET__img_character_left_png);
+		type.set ("img/character_left.png", AssetType.IMAGE);
+		className.set ("img/character_right.png", __ASSET__img_character_right_png);
+		type.set ("img/character_right.png", AssetType.IMAGE);
+		className.set ("img/charcater redo.png", __ASSET__img_charcater_redo_png);
+		type.set ("img/charcater redo.png", AssetType.IMAGE);
+		className.set ("img/Player.png", __ASSET__img_player_png);
+		type.set ("img/Player.png", AssetType.IMAGE);
+		className.set ("UI/Button_Down.png", __ASSET__ui_button_down_png);
+		type.set ("UI/Button_Down.png", AssetType.IMAGE);
+		className.set ("UI/Button_Over.png", __ASSET__ui_button_over_png);
+		type.set ("UI/Button_Over.png", AssetType.IMAGE);
+		className.set ("UI/Button_Up.png", __ASSET__ui_button_up_png);
+		type.set ("UI/Button_Up.png", AssetType.IMAGE);
+		className.set ("UI/Icon_Mute.png", __ASSET__ui_icon_mute_png);
+		type.set ("UI/Icon_Mute.png", AssetType.IMAGE);
+		className.set ("UI/Icon_Play.png", __ASSET__ui_icon_play_png);
+		type.set ("UI/Icon_Play.png", AssetType.IMAGE);
+		className.set ("UI/Icon_Quit.png", __ASSET__ui_icon_quit_png);
+		type.set ("UI/Icon_Quit.png", AssetType.IMAGE);
+		className.set ("UI/MenuScreen_0.png", __ASSET__ui_menuscreen_0_png);
+		type.set ("UI/MenuScreen_0.png", AssetType.IMAGE);
+		className.set ("UI/MenuScreen_1.png", __ASSET__ui_menuscreen_1_png);
+		type.set ("UI/MenuScreen_1.png", AssetType.IMAGE);
+		className.set ("UI/MenuScreen_2.png", __ASSET__ui_menuscreen_2_png);
+		type.set ("UI/MenuScreen_2.png", AssetType.IMAGE);
 		
 		
 		#elseif html5
 		
 		var id;
-		id = "assets/4chartile_test.png";
+		id = "img/4chartile_test.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
-		id = "assets/BusinessChar.png";
+		id = "img/BusinessChar.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
-		id = "assets/character.png";
+		id = "img/character.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
-		id = "assets/character_left.png";
+		id = "img/character_left.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
-		id = "assets/character_right.png";
+		id = "img/character_right.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
-		id = "assets/Player.png";
+		id = "img/charcater redo.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "img/Player.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "UI/Button_Down.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "UI/Button_Over.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "UI/Button_Up.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "UI/Icon_Mute.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "UI/Icon_Play.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "UI/Icon_Quit.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "UI/MenuScreen_0.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "UI/MenuScreen_1.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "UI/MenuScreen_2.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
@@ -129,23 +199,53 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		var useManifest = false;
 		
-		className.set ("assets/4chartile_test.png", __ASSET__assets_4chartile_test_png);
-		type.set ("assets/4chartile_test.png", AssetType.IMAGE);
+		className.set ("img/4chartile_test.png", __ASSET__img_4chartile_test_png);
+		type.set ("img/4chartile_test.png", AssetType.IMAGE);
 		
-		className.set ("assets/BusinessChar.png", __ASSET__assets_businesschar_png);
-		type.set ("assets/BusinessChar.png", AssetType.IMAGE);
+		className.set ("img/BusinessChar.png", __ASSET__img_businesschar_png);
+		type.set ("img/BusinessChar.png", AssetType.IMAGE);
 		
-		className.set ("assets/character.png", __ASSET__assets_character_png);
-		type.set ("assets/character.png", AssetType.IMAGE);
+		className.set ("img/character.png", __ASSET__img_character_png);
+		type.set ("img/character.png", AssetType.IMAGE);
 		
-		className.set ("assets/character_left.png", __ASSET__assets_character_left_png);
-		type.set ("assets/character_left.png", AssetType.IMAGE);
+		className.set ("img/character_left.png", __ASSET__img_character_left_png);
+		type.set ("img/character_left.png", AssetType.IMAGE);
 		
-		className.set ("assets/character_right.png", __ASSET__assets_character_right_png);
-		type.set ("assets/character_right.png", AssetType.IMAGE);
+		className.set ("img/character_right.png", __ASSET__img_character_right_png);
+		type.set ("img/character_right.png", AssetType.IMAGE);
 		
-		className.set ("assets/Player.png", __ASSET__assets_player_png);
-		type.set ("assets/Player.png", AssetType.IMAGE);
+		className.set ("img/charcater redo.png", __ASSET__img_charcater_redo_png);
+		type.set ("img/charcater redo.png", AssetType.IMAGE);
+		
+		className.set ("img/Player.png", __ASSET__img_player_png);
+		type.set ("img/Player.png", AssetType.IMAGE);
+		
+		className.set ("UI/Button_Down.png", __ASSET__ui_button_down_png);
+		type.set ("UI/Button_Down.png", AssetType.IMAGE);
+		
+		className.set ("UI/Button_Over.png", __ASSET__ui_button_over_png);
+		type.set ("UI/Button_Over.png", AssetType.IMAGE);
+		
+		className.set ("UI/Button_Up.png", __ASSET__ui_button_up_png);
+		type.set ("UI/Button_Up.png", AssetType.IMAGE);
+		
+		className.set ("UI/Icon_Mute.png", __ASSET__ui_icon_mute_png);
+		type.set ("UI/Icon_Mute.png", AssetType.IMAGE);
+		
+		className.set ("UI/Icon_Play.png", __ASSET__ui_icon_play_png);
+		type.set ("UI/Icon_Play.png", AssetType.IMAGE);
+		
+		className.set ("UI/Icon_Quit.png", __ASSET__ui_icon_quit_png);
+		type.set ("UI/Icon_Quit.png", AssetType.IMAGE);
+		
+		className.set ("UI/MenuScreen_0.png", __ASSET__ui_menuscreen_0_png);
+		type.set ("UI/MenuScreen_0.png", AssetType.IMAGE);
+		
+		className.set ("UI/MenuScreen_1.png", __ASSET__ui_menuscreen_1_png);
+		type.set ("UI/MenuScreen_1.png", AssetType.IMAGE);
+		
+		className.set ("UI/MenuScreen_2.png", __ASSET__ui_menuscreen_2_png);
+		type.set ("UI/MenuScreen_2.png", AssetType.IMAGE);
 		
 		
 		if (useManifest) {
@@ -784,15 +884,35 @@ class DefaultAssetLibrary extends AssetLibrary {
 #if !display
 #if flash
 
-@:keep @:bind #if display private #end class __ASSET__assets_4chartile_test_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
-@:keep @:bind #if display private #end class __ASSET__assets_businesschar_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
-@:keep @:bind #if display private #end class __ASSET__assets_character_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
-@:keep @:bind #if display private #end class __ASSET__assets_character_left_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
-@:keep @:bind #if display private #end class __ASSET__assets_character_right_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
-@:keep @:bind #if display private #end class __ASSET__assets_player_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__img_4chartile_test_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__img_businesschar_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__img_character_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__img_character_left_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__img_character_right_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__img_charcater_redo_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__img_player_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__ui_button_down_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__ui_button_over_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__ui_button_up_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__ui_icon_mute_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__ui_icon_play_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__ui_icon_quit_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__ui_menuscreen_0_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__ui_menuscreen_1_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__ui_menuscreen_2_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 
 
 #elseif html5
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -809,12 +929,22 @@ class DefaultAssetLibrary extends AssetLibrary {
 #if (windows || mac || linux || cpp)
 
 
-@:image("Assets/4chartile_test.png") #if display private #end class __ASSET__assets_4chartile_test_png extends lime.graphics.Image {}
-@:image("Assets/BusinessChar.png") #if display private #end class __ASSET__assets_businesschar_png extends lime.graphics.Image {}
-@:image("Assets/character.png") #if display private #end class __ASSET__assets_character_png extends lime.graphics.Image {}
-@:image("Assets/character_left.png") #if display private #end class __ASSET__assets_character_left_png extends lime.graphics.Image {}
-@:image("Assets/character_right.png") #if display private #end class __ASSET__assets_character_right_png extends lime.graphics.Image {}
-@:image("Assets/Player.png") #if display private #end class __ASSET__assets_player_png extends lime.graphics.Image {}
+@:image("assets/img/4chartile_test.png") #if display private #end class __ASSET__img_4chartile_test_png extends lime.graphics.Image {}
+@:image("assets/img/BusinessChar.png") #if display private #end class __ASSET__img_businesschar_png extends lime.graphics.Image {}
+@:image("assets/img/character.png") #if display private #end class __ASSET__img_character_png extends lime.graphics.Image {}
+@:image("assets/img/character_left.png") #if display private #end class __ASSET__img_character_left_png extends lime.graphics.Image {}
+@:image("assets/img/character_right.png") #if display private #end class __ASSET__img_character_right_png extends lime.graphics.Image {}
+@:image("assets/img/charcater redo.png") #if display private #end class __ASSET__img_charcater_redo_png extends lime.graphics.Image {}
+@:image("assets/img/Player.png") #if display private #end class __ASSET__img_player_png extends lime.graphics.Image {}
+@:image("assets/UI/Button_Down.png") #if display private #end class __ASSET__ui_button_down_png extends lime.graphics.Image {}
+@:image("assets/UI/Button_Over.png") #if display private #end class __ASSET__ui_button_over_png extends lime.graphics.Image {}
+@:image("assets/UI/Button_Up.png") #if display private #end class __ASSET__ui_button_up_png extends lime.graphics.Image {}
+@:image("assets/UI/Icon_Mute.png") #if display private #end class __ASSET__ui_icon_mute_png extends lime.graphics.Image {}
+@:image("assets/UI/Icon_Play.png") #if display private #end class __ASSET__ui_icon_play_png extends lime.graphics.Image {}
+@:image("assets/UI/Icon_Quit.png") #if display private #end class __ASSET__ui_icon_quit_png extends lime.graphics.Image {}
+@:image("assets/UI/MenuScreen_0.png") #if display private #end class __ASSET__ui_menuscreen_0_png extends lime.graphics.Image {}
+@:image("assets/UI/MenuScreen_1.png") #if display private #end class __ASSET__ui_menuscreen_1_png extends lime.graphics.Image {}
+@:image("assets/UI/MenuScreen_2.png") #if display private #end class __ASSET__ui_menuscreen_2_png extends lime.graphics.Image {}
 
 
 

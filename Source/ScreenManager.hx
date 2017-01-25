@@ -14,10 +14,12 @@ class ScreenManager extends Sprite
 
 	// which screen is visible/active now
 	private var currentScreen:Screen;
+	
+	private var m:ScreenManager;
 
 	// the static variable pointing to the instance of this class
 	// see http://haxe.org/manual/class-field-property.html for the access modifiers
-	public static var instance(get, null):Main;
+	public static var instance(get, null):ScreenManager;
 
 	/** 
 	 * This constructor does not do much...
@@ -25,8 +27,6 @@ class ScreenManager extends Sprite
 	private function new () 
 	{
 		super ();
-		//var m:ScreenManager = ScreenManager.instance;
-		openfl.Lib.current.stage.addChild( this );
 	}
 
 	/**
@@ -40,10 +40,10 @@ class ScreenManager extends Sprite
 	 */
 	public function loadScreen( which:ScreenType )
 	{
-		if( currentScreen != null && contains( currentScreen ) )
+		if( currentScreen != null)
 		{
-			removeChild( currentScreen );
-			currentScreen.onDestroy();
+			removeChild( this.currentScreen );
+			this.currentScreen.onDestroy();
 		}
 
 		switch ( which ) 
@@ -51,8 +51,7 @@ class ScreenManager extends Sprite
 			case ScreenType.Menu:
 				currentScreen = new MenuScreen();
 			case ScreenType.Game:
-				//currentScreen = new GameScreen();
-				return;
+				currentScreen = new GameScreen();
 		}
 
 		addChild( currentScreen );
@@ -63,11 +62,24 @@ class ScreenManager extends Sprite
 	 * The public access to the private instance variable
 	 *
 	 */
-	public static function get_instance():Main
+	public static function get_instance():ScreenManager
 	{
 		if( instance == null )
-			instance = new Main();
+			instance = new ScreenManager();
 
 		return instance;
+	}
+	
+	public function changeScreen(which:ScreenType)
+	{
+		m.loadScreen(which);
+	}
+	
+	public function run()
+	{
+		m = ScreenManager.instance;
+		openfl.Lib.current.stage.addChild( m );
+		
+		changeScreen(ScreenType.Menu);
 	}
 }
