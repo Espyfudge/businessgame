@@ -23,6 +23,8 @@ class GameScreen extends Screen
 	public var enemy : Array<Enemy> = [];
 	var projectile : Projectile;
 
+	var timer : Int = 0;
+
 	public function new()
 	{
 		super();
@@ -31,33 +33,37 @@ class GameScreen extends Screen
 	override public function onLoad():Void
 	{
 
-		var backData : BitmapData = Assets.getBitmapData( "assets/tempbackground.png" );
+		var backData : BitmapData = Assets.getBitmapData( "assets/tempbackground1.png" );
 		var back : Bitmap = new Bitmap( backData );
 		addChild( back );
 
-		player = new Player();
+		player = new Player(this);
 		stage.addChild( player );
 
-		enemy[0] = new Enemy( this, player, 900 );
-		stage.addChild( enemy[0] );
-
-		enemy[1] = new Enemy( this, player, 1300 );
-		stage.addChild( enemy[1] );
-
-		enemy[2] = new Enemy( this, player, 1600 );
-		stage.addChild( enemy[2] );
 
 		player.setEnemyArray(enemy);
 
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, player.keyDown );
 		stage.addEventListener(KeyboardEvent.KEY_UP, player.keyUp );
 
+		stage.addEventListener(Event.ENTER_FRAME, spawnTime);
+
 	}
 
-	private function onQuitClick()
-	{
-		Main.instance.loadScreen( ScreenType.Menu );
-	}
+	function spawnTime( event : Event ) {
 
+		timer++;
+
+		if (timer == 100) {
+
+			var enemySpawn = new Enemy( this, player, Std.random(2) == 0 ? 2000 : -100);
+			enemy.push(enemySpawn);
+			addChild(enemySpawn);
+
+			timer = 0;
+
+		}
+
+	}
 
 }
