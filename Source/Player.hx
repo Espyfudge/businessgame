@@ -22,11 +22,11 @@ class Player extends Sprite {
 	var lastUpdate : Int;
 
 	var keys : Array<Bool>;
-	var gravity : Float = 0.9;
+	var gravity : Float = 0.8;
 	var velocity : Point = new Point( 0, 0 );
 	var isOnGround : Bool;
 
-	var playerHealth : Int = 100;
+	var playerHealth : Int = 3;
 
 	// tilesheet instance containing the sprite sheet
 	var tileSet : Tileset;
@@ -34,13 +34,13 @@ class Player extends Sprite {
 	public var character : Tilemap;
 
 	// variable determining frame rate of animations
-	static inline var fps : Int = 7;
+	static inline var fps : Int = 8;
 
 	// calculates milliseconds every frame should be visible (based on fps)
 	var msPerFrame : Int = Std.int( 1000 / fps );
 
 	// total amount of frames in the sprite sheet (to define fram rectangles)
-	static inline var frameCount : Int = 14;
+	static inline var frameCount : Int = 22;
 
 	// time measurement to get proper frame rate
 	var currentDuration : Int = 0;
@@ -49,8 +49,10 @@ class Player extends Sprite {
 	// arrays containing the frame numbers of the animations in sprite sheet
 	var idleLeftSequence : Array<Int> = [0];
 	var idleRightSequence : Array<Int> = [1];
-	var walkLeftSequence : Array<Int> = [2, 3, 4, 5, 6, 7];
-	var walkRightSequence : Array<Int> = [8, 9, 10, 11, 12, 13];
+	var throwLeftSequence : Array<Int> = [2, 3, 4];
+	var throwRightSequence : Array<Int> = [5, 6, 7];
+	var walkLeftSequence : Array<Int> = [8, 9, 10, 11, 12, 13, 14];
+	var walkRightSequence : Array<Int> = [15, 16, 17, 18, 19, 20, 21];
 
 	// current animation. one of sequences will be referenced by this var
 	var currentStateFrames : Array<Int>;	
@@ -66,15 +68,25 @@ class Player extends Sprite {
 
 	var enemy : Array<Enemy>;
 
-	public function new () {
+	var screen : screens.GameScreen;
+
+	var thrownTimer : Int = 0;
+	var thrown : Bool = false;
+
+	var timer : Int = 0;
+	var timerCooldown : Bool = false;
+
+	public function new (s:screens.GameScreen) {
 
 		super();
+
+		screen = s;
 
 		var bitmapData : BitmapData = Assets.getBitmapData( "assets/CharacterSheet.png" );
 		tileSet = new Tileset( bitmapData );
 
 		character = new Tilemap( 256, 256, tileSet);
-
+		character.x = -150;
 		initializeSpriteSheet();
 
 		character.addTile( new Tile( 0 ) );
@@ -155,7 +167,7 @@ class Player extends Sprite {
 	function everyFrame( event : Event ) : Void {
 
 		// if the character is higher above ( less than) #
-		if ( character.y < 450 ) {
+		if ( this.y < 670 ) {
 
 			// gravity applies, character isn't on ground
 			velocity.y += gravity;
@@ -166,31 +178,31 @@ class Player extends Sprite {
 
 			// if character is on the level above, he is on ground
 			velocity.y = 0;
-			character.y = 450;
+			this.y = 670;
 			isOnGround = true;
 
 		}
 
-		if ( character.x < -45 ) {
+		if ( this.x < -45 ) {
 
-			character.x += 8;
-
-		}
-
-		if ( character.x > (stage.stageWidth -77) ) {
-
-			character.x -= 8;
+			this.x += 8;
 
 		}
 
-		if (keys[37]) {
+		if ( this.x > (stage.stageWidth -77) ) {
+
+			this.x -= 8;
+
+		}
+
+		if (keys[37] && !attackPressed) {
 
 			velocity.x = -5;
 			faces = 0;
 			currentStateFrames = walkLeftSequence;
 
 		}
-		else if (keys[39]) {
+		else if (keys[39] && !attackPressed) {
 
 			velocity.x = 5;
 			faces = 1;
@@ -199,12 +211,12 @@ class Player extends Sprite {
 		else {
 
 			velocity.x = 0;
-			if ( faces == 1 ) {
+			if ( faces == 1 && !attackPressed ) {
 
 				currentStateFrames = idleRightSequence;
 
 			}
-			else {
+			else if ( faces == 0 && !attackPressed ) {
 
 				currentStateFrames = idleLeftSequence;
 
@@ -215,36 +227,82 @@ class Player extends Sprite {
 
 		if ((keys[32] && isOnGround) || (keys[38] && isOnGround)) {
 
-			velocity.y -= 16;
+			velocity.y -= 20;
 
 		}
 
-		character.y += velocity.y;
-		character.x += velocity.x;
+		this.y += velocity.y;
+		this.x += velocity.x;
 
-		if (keys[40] && isOnGround && !attackPressed) {
+		if (keys[40] && isOnGround && !attackPressed && timer == 0) {
 
-			// play attack animation
+			
 		
 			var projectile : Projectile = new Projectile(projectileID, enemy, this, faces == 0);
 			projectiles[projectileID] = projectile;
 
 			projectileID++;
 
-			projectile.x = character.x + character.width;
-			projectile.y = character.y + character.height / 2;
-			addChild( projectile );
+			screen.addChild( projectile );
 			
-
+			thrown = true;
+			thrownTimer = 0;
 			attackPressed = true;
+			timerCooldown = true;
 
+		}
+		
+		if (timerCooldown) {
+
+			timer++;
+			if(timer == 35) {
+
+				timer = 0;
+				timerCooldown = false;
+
+			}
+
+		}
+
+		if(thrown)
+		{
+			if ( faces == 0 ) {
+
+				velocity.x = 0;
+				currentStateFrames = throwLeftSequence;
+				
+			}
+			else {
+
+				currentStateFrames = throwRightSequence;
+
+			}
+
+			thrownTimer ++;
+			if(thrownTimer >= 15)
+			{
+				thrownTimer = 0;
+				thrown = false;
+
+				if(faces == 0 ) {
+
+					currentStateFrames = idleLeftSequence;
+
+				}
+				else {
+
+					currentStateFrames = idleRightSequence;
+
+				}
+
+			}
 		}
 
 	}
 
 	public function destroyProjectile(proj:Int)
 	{
-		removeChild(projectiles[proj]);
+		screen.removeChild(projectiles[proj]);
 		projectiles[proj] = null;
 	}
 

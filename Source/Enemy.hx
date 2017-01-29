@@ -35,23 +35,27 @@ class Enemy extends Sprite {
 	public var enemy : Tilemap;
 
 	// variable determining frame rate of animations
-	static inline var fps : Int = 7;
+	static inline var fps : Int = 4;
 
 	// calculates milliseconds every frame should be visible (based on fps)
 	var msPerFrame : Int = Std.int( 1000 / fps );
 
 	// total amount of frames in the sprite sheet (to define fram rectangles)
-	static inline var frameCount : Int = 1;
+	static inline var frameCount : Int = 36;
 
 	// time measurement to get proper frame rate
 	var currentDuration : Int = 0;
 	var currentFrame : Int = 1;
 
 	// arrays containing the frame numbers of the animations in sprite sheet
-	var idleLeftSequence : Array<Int> = [0];
-	var idleRightSequence : Array<Int> = [1];
-	var walkLeftSequence : Array<Int> = [2, 3, 4, 5, 6, 7];
-	var walkRightSequence : Array<Int> = [8, 9, 10, 11, 12, 13];
+	var leftAttackSequence : Array<Int> = [0, 1, 2];
+	var attackRightSequence : Array<Int> = [3, 4, 5];
+	var dyingLeftSequence : Array<Int> = [6, 7, 8, 9, 10, 11, 12];
+	var dyingRightSequence : Array<Int> = [19, 18, 17, 16, 15, 14, 13];
+	var idleLeftSequence : Array<Int> = [20];
+	var idleRightSequence : Array<Int> = [21];
+	var walkLeftSequence : Array<Int> = [22, 23, 24, 25, 26, 27, 28];
+	var walkRightSequence : Array<Int> = [29, 30, 31, 32, 33, 34, 35];
 
 	// current animation. one of sequences will be referenced by this var
 	var currentStateFrames : Array<Int>;	
@@ -70,12 +74,14 @@ class Enemy extends Sprite {
 		super();
 
 		player = playerRef;
-
+		
+		main = st;
+		
 		mainStage = st.stage;
 
-		main = st;
+		
 
-		var bitmapData : BitmapData = Assets.getBitmapData( "assets/enemy_still_left.png" );
+		var bitmapData : BitmapData = Assets.getBitmapData( "assets/EnemySheet.png" );
 		tileSet = new Tileset( bitmapData );
 
 		enemy = new Tilemap( 256, 256, tileSet);
@@ -138,7 +144,7 @@ class Enemy extends Sprite {
 	function everyFrame( event : Event ) : Void {
 
 		// if the enemy is higher above ( less than ) #
-		if ( this.y < 350 ) {
+		if ( this.y < 670 ) {
 
 			// gravity applies, enemy isn't on ground
 			velocity.y += gravity;
@@ -148,7 +154,7 @@ class Enemy extends Sprite {
 		else {
 
 			velocity.y = 0;
-			this.y = 350;
+			this.y = 670;
 			isOnGround = true;
 
 		}
@@ -156,11 +162,13 @@ class Enemy extends Sprite {
 		if ( this.x > player.x ) {
 
 			velocity.x = -0.8;
+			currentStateFrames = walkLeftSequence;
 
 		}
 		else if (this.x < player.x ) {
 
 			velocity.x = 0.8;
+			currentStateFrames = walkRightSequence;
 
 		}
 		else {
@@ -194,7 +202,7 @@ class Enemy extends Sprite {
 		if ( enemyHealth <= 0 ) {
 
 			main.enemy.remove( this );
-			mainStage.removeChild( this );
+			main.removeChild( this );
 
 		}
 

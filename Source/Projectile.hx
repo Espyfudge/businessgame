@@ -23,21 +23,23 @@ class Projectile extends Sprite {
 
 	var left : Bool;
 
-	public function new (i : Int, en : Array<Enemy>, p:Player, b : Bool) {
+	public function new (projID : Int, en : Array<Enemy>, pl : Player, dirLeft : Bool) {
 
 		super();
 
-		left = b;
+		left = dirLeft;
 
-		ID = i;
+		ID = projID;
 
 		enemy = en;
-		player = p;
+		player = pl;
 
 		var bCardData : BitmapData = Assets.getBitmapData( "assets/bCard.png" );
 		bCard = new Bitmap( bCardData );
 		bCard.x = -bCardData.width;
 		addChild( bCard );
+		this.x = player.x;
+		this.y = player.y + player.character.width / 2;
 
 		this.addEventListener(Event.ENTER_FRAME, shoot );
 
@@ -46,7 +48,8 @@ class Projectile extends Sprite {
 	public function shoot( event : Event ) {
 
 		this.x += (velocity.x * (left ? -1 : 1));
-		velocity.x = 5;
+		velocity.x = 7;
+		velocity.y = 5;
 
 		for ( badguy in enemy ) {
 
