@@ -1,30 +1,23 @@
 package;
 
-import openfl.Assets;
 import openfl.display.Sprite;
-import openfl.events.KeyboardEvent;
-import openfl.display.Bitmap;
-import openfl.Lib;
-import openfl.events.Event;
+import screens.*;
+import openfl.display.StageDisplayState;
 
 class Main extends Sprite {
-
-	var player : Player;
+	
+	public static var sm:ScreenManager;
+	
+	public static var mute:Bool = false;
 
   	public function new () {
 		
 		super ();
+		
+		stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 
-		player = new Player();
-		addChild( player );
-		
-		stage.addEventListener(KeyboardEvent.KEY_DOWN, player.keyDown );
-		stage.addEventListener(KeyboardEvent.KEY_UP, player.keyUp );
-		
-		
+		sm = new ScreenManager();
+		sm.run();
+		//sm.loadScreen(ScreenType.Menu);
 	}
-
-	
-
-
 }
