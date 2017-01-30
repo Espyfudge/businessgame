@@ -2,6 +2,7 @@ package;
 
 import openfl.display.Sprite;
 import screens.*;
+import openfl.display.StageDisplayState;
 
 class Main extends Sprite {
 	
@@ -13,6 +14,8 @@ class Main extends Sprite {
 		
 		super ();
 		
+		stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+
 		sm = new ScreenManager();
 		sm.run();
 		//sm.loadScreen(ScreenType.Menu);
