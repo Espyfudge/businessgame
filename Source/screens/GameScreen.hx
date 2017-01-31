@@ -21,9 +21,13 @@ class GameScreen extends Screen
 {
 	var player : Player;
 	public var enemy : Array<Enemy> = [];
+	public var rollEnemy : Array<SecondEnemy> = [];
 	var projectile : Projectile;
 
 	var timer : Int = 0;
+	var sTimer : Int = 0;
+
+	var enemySpawn : Enemy;
 
 	public function new()
 	{
@@ -36,31 +40,52 @@ class GameScreen extends Screen
 		var backData : BitmapData = Assets.getBitmapData( "assets/tempbackground1.png" );
 		var back : Bitmap = new Bitmap( backData );
 		addChild( back );
+		
+		
 
 		player = new Player(this);
-		stage.addChild( player );
-
+		addChild( player );
+		player.x = 350;
+		player.y = 350;
 
 		player.setEnemyArray(enemy);
+		player.setSEnemyArray(rollEnemy);
 
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, player.keyDown );
 		stage.addEventListener(KeyboardEvent.KEY_UP, player.keyUp );
 
-		stage.addEventListener(Event.ENTER_FRAME, spawnTime);
+		addEventListener(Event.ENTER_FRAME, spawnEnemy);
+		addEventListener(Event.ENTER_FRAME, spawnRollEnemy );
 
 	}
 
-	function spawnTime( event : Event ) {
+	function spawnEnemy( event : Event ) {
 
 		timer++;
 
-		if (timer == 100) {
+		if (timer == 200) {
 
-			var enemySpawn = new Enemy( this, player, Std.random(2) == 0 ? 2000 : -100);
+			enemySpawn = new Enemy( this, player, Std.random(2) == 0 ? 2000 : -100);
 			enemy.push(enemySpawn);
 			addChild(enemySpawn);
 
 			timer = 0;
+
+		}
+
+	}
+
+	function spawnRollEnemy( event : Event ) {
+
+		sTimer++;
+
+		if (sTimer == 3000 ) {
+
+			var rEnemySpawn = new SecondEnemy(this, player, Std.random(2) == 0 ? 2400 : -400);
+			rollEnemy.push(rEnemySpawn);
+			addChild(rEnemySpawn);
+
+			sTimer = 0;
 
 		}
 
