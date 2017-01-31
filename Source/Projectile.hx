@@ -15,6 +15,8 @@ class Projectile extends Sprite {
 
 	var enemy : Array<Enemy>; 
 
+	var rollEnemy : Array<SecondEnemy>;
+
 	var playerDamage : Int = 30;
 
 	var player:Player;
@@ -23,7 +25,9 @@ class Projectile extends Sprite {
 
 	var left : Bool;
 
-	public function new (projID : Int, en : Array<Enemy>, pl : Player, dirLeft : Bool) {
+	var graph : Float = 0.0;
+
+	public function new (projID : Int, en : Array<Enemy>, ren : Array<SecondEnemy>, pl : Player, dirLeft : Bool) {
 
 		super();
 
@@ -32,14 +36,16 @@ class Projectile extends Sprite {
 		ID = projID;
 
 		enemy = en;
+		rollEnemy = ren;
 		player = pl;
 
 		var bCardData : BitmapData = Assets.getBitmapData( "assets/bCard.png" );
 		bCard = new Bitmap( bCardData );
-		bCard.x = -bCardData.width;
+		bCard.x = -bCardData.width / 2;
 		addChild( bCard );
-		this.x = player.x;
-		this.y = player.y + player.character.width / 2;
+
+		this.x = Std.int(left ? player.x + 10 : player.x + 80 );
+		this.y = player.y + 50;
 
 		this.addEventListener(Event.ENTER_FRAME, shoot );
 
@@ -47,9 +53,13 @@ class Projectile extends Sprite {
 
 	public function shoot( event : Event ) {
 
+		//graph = Math.exp(Math.POSITIVE_INFINITY);
+		bCard.x = this.x;
+		bCard.y = this.y;
 		this.x += (velocity.x * (left ? -1 : 1));
-		velocity.x = 7;
-		velocity.y = 5;
+		this.y += velocity.y;
+		velocity.x = 6;
+		velocity.y = 0;
 
 		for ( badguy in enemy ) {
 
@@ -64,7 +74,21 @@ class Projectile extends Sprite {
 
 		}
 
-		if(this.x > 2000 || this.x < -2000)
+		for ( roller in rollEnemy ) {
+
+			if ( this.x >= roller.x - 80 && this.x <= roller.x + 90 ) {
+
+				roller.takeDamage( playerDamage );
+				player.destroyProjectile(ID);
+				this.removeEventListener(Event.ENTER_FRAME, shoot );
+				return;
+
+			}
+
+		}
+
+
+		if(this.x > 2000 || this.x < -200)
 		{
 			player.destroyProjectile(ID);
 			this.removeEventListener(Event.ENTER_FRAME, shoot );

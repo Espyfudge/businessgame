@@ -26,7 +26,7 @@ class Enemy extends Sprite {
 	var isOnGround : Bool;
 
 	var enemyHealth : Int = 100;
-	var enemyDamage : Int = 35;
+	var enemyDamage : Int = 20;
 
 
 	// tilesheet instance containing the sprite sheet
@@ -48,7 +48,7 @@ class Enemy extends Sprite {
 	var currentFrame : Int = 1;
 
 	// arrays containing the frame numbers of the animations in sprite sheet
-	var leftAttackSequence : Array<Int> = [0, 1, 2];
+	var attackLeftSequence : Array<Int> = [0, 1, 2];
 	var attackRightSequence : Array<Int> = [3, 4, 5];
 	var dyingLeftSequence : Array<Int> = [6, 7, 8, 9, 10, 11, 12];
 	var dyingRightSequence : Array<Int> = [19, 18, 17, 16, 15, 14, 13];
@@ -68,6 +68,12 @@ class Enemy extends Sprite {
 	var mainStage : Stage;
 
 	var main : screens.GameScreen;
+
+	var timer : Int = 0;
+	var playerHit : Bool;
+
+	var attackTimer : Int = 0;
+	var attacked : Bool;
 
 	public function new ( st : screens.GameScreen, playerRef : Player, enemyX : Int ) {
 
@@ -104,6 +110,7 @@ class Enemy extends Sprite {
 
 
 		this.addEventListener(Event.ENTER_FRAME, everyFrame );
+		this.addEventListener(Event.ENTER_FRAME, damagePlayer );
 
 
 	}
@@ -144,7 +151,7 @@ class Enemy extends Sprite {
 	function everyFrame( event : Event ) : Void {
 
 		// if the enemy is higher above ( less than ) #
-		if ( this.y < 670 ) {
+		if ( this.y < 330 ) {
 
 			// gravity applies, enemy isn't on ground
 			velocity.y += gravity;
@@ -154,20 +161,20 @@ class Enemy extends Sprite {
 		else {
 
 			velocity.y = 0;
-			this.y = 670;
+			this.y = 330;
 			isOnGround = true;
 
 		}
 
-		if ( this.x > player.x ) {
+		if ( this.x >= player.x + 10 ) {
 
-			velocity.x = -0.8;
+			velocity.x = -0.4;
 			currentStateFrames = walkLeftSequence;
 
 		}
-		else if (this.x < player.x ) {
+		else if ( this.x <= player.x - 10 ) {
 
-			velocity.x = 0.8;
+			velocity.x = 0.4;
 			currentStateFrames = walkRightSequence;
 
 		}
@@ -177,6 +184,8 @@ class Enemy extends Sprite {
 
 		}
 		
+		enemy.x = this.x;
+		enemy.y = this.y;
 		this.y += velocity.y;
 		this.x += velocity.x;
 
@@ -190,9 +199,6 @@ class Enemy extends Sprite {
 
 		updates( deltaTime );
 
-
-
-
 	}
 
 	public function takeDamage ( damage : Int ) {
@@ -203,6 +209,78 @@ class Enemy extends Sprite {
 
 			main.enemy.remove( this );
 			main.removeChild( this );
+			removeEventListener(Event.ENTER_FRAME, damagePlayer);
+			removeEventListener(Event.ENTER_FRAME, everyFrame );
+			
+
+		}
+
+	}
+
+	public function damagePlayer ( event : Event ) {
+
+		if ( playerHit ) {
+			
+			timer++;
+
+		}
+
+		if ( timer == 120 ) {
+
+			timer = 0;
+			playerHit = false;
+
+		}
+
+		if ( timer == 0 ) {
+
+			if ( this.x >= player.x - 10 && this.x <= player.x + 10 ) {
+
+				playerHit = true;
+				attacked = true;
+
+				if(attacked) {
+
+					velocity.x = 0;
+
+					if( faces == 0 ) {
+
+						currentStateFrames = attackLeftSequence;
+
+					}
+					else {
+
+						currentStateFrames = attackRightSequence;
+
+					}
+
+					attackTimer++;
+
+					if(attackTimer == 20) {
+
+						attacked = false;
+						attackTimer = 0;
+
+						if( faces == 0 ) {
+
+						currentStateFrames = idleLeftSequence;
+
+						}
+						else {
+
+							currentStateFrames = idleRightSequence;
+
+						}
+
+					}
+
+				}
+
+				player.takeDamage(enemyDamage);
+				playerHit = true;
+
+
+			}
 
 		}
 
