@@ -14,6 +14,10 @@ import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
 
+import openfl.media.Sound;
+import openfl.media.SoundChannel;
+import openfl.media.SoundTransform;
+
 /**
  * A fairly crude button with state functionality and a callback for when clicked.
  *
@@ -29,6 +33,9 @@ class Button extends Sprite
 	var image:Bitmap;
 
 	var callback:Void->Void;
+	
+	var snd:Sound;
+	var channel:SoundChannel;
 
 	/**
 	 * Create the button
@@ -58,6 +65,8 @@ class Button extends Sprite
 
 	function init( e:Event)
 	{
+		snd = Assets.getSound("Sounds/Blip_Select.mp3");
+		
 		removeEventListener( Event.ADDED_TO_STAGE, init );
 		addEventListener( MouseEvent.CLICK, onClick );
 		addEventListener( MouseEvent.MOUSE_OVER, onHover );
@@ -90,6 +99,16 @@ class Button extends Sprite
 
 	function onClick( e:MouseEvent ):Void
 	{
+		if (Main.mute == false)
+		{
+			channel = snd.play( 0, 1,new SoundTransform( 1, 0 ));
+			channel.addEventListener( Event.SOUND_COMPLETE, onSoundComplete );
+		}
 		callback();
+	}
+	
+	function onSoundComplete( e:Event ):Void
+	{
+		channel = null;
 	}
 }

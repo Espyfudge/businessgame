@@ -9,22 +9,22 @@ import screens.*;
  *
  * This Main class is a Singleton
  */
-class ScreenManager extends Sprite 
+class ScreenManager extends Sprite
 {
 
 	// which screen is visible/active now
-	private var currentScreen:Screen;
-	
+	public var currentScreen:Screen;
+
 	private var m:ScreenManager;
 
 	// the static variable pointing to the instance of this class
 	// see http://haxe.org/manual/class-field-property.html for the access modifiers
 	public static var instance(get, null):ScreenManager;
 
-	/** 
+	/**
 	 * This constructor does not do much...
 	 */
-	private function new () 
+	private function new ()
 	{
 		super ();
 	}
@@ -35,26 +35,33 @@ class ScreenManager extends Sprite
 	 * - it is removed first from the display list
 	 * - it's onDestroy function is called to do possible house keeping tasks
 	 *
-	 * Then a check is done for which screen to load, 
+	 * Then a check is done for which screen to load,
 	 *  it is instantitated, added to the display list and it's onLoad function is called.
 	 */
 	public function loadScreen( which:ScreenType )
 	{
 		if( currentScreen != null)
 		{
-			removeChild( this.currentScreen );
-			this.currentScreen.onDestroy();
+				removeChild( this.currentScreen );
+				this.currentScreen.onDestroy();
+				trace(currentScreen.toString() + " Destroyed!");
 		}
 
 		switch ( which ) 
 		{
 			case ScreenType.Menu:
 				currentScreen = new MenuScreen();
+				trace(currentScreen.toString() + " Created!");
 			case ScreenType.Game:
 				currentScreen = new GameScreen();
+				trace(currentScreen.toString() + " Created!");
+			case ScreenType.GameOver:
+				currentScreen = new GameOverScreen();
+				trace(currentScreen.toString() + " Created!");
 		}
 
 		addChild( currentScreen );
+		trace(currentScreen.toString() + " Active!");
 		currentScreen.onLoad();
 	}
 
@@ -64,22 +71,22 @@ class ScreenManager extends Sprite
 	 */
 	public static function get_instance():ScreenManager
 	{
-		if( instance == null )
+		if ( instance == null )
 			instance = new ScreenManager();
 
 		return instance;
 	}
-	
+
 	public function changeScreen(which:ScreenType)
 	{
 		m.loadScreen(which);
 	}
-	
+
 	public function run()
 	{
 		m = ScreenManager.instance;
 		openfl.Lib.current.stage.addChild( m );
-		
+
 		changeScreen(ScreenType.Menu);
 	}
 }

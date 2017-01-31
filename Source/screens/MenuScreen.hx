@@ -9,6 +9,9 @@ import openfl.display.BitmapData;
 import openfl.events.Event;
 import utilities.*;
 
+import openfl.media.Sound;
+import openfl.media.SoundChannel;
+import openfl.media.SoundTransform;
 
 /**
  * ...
@@ -19,6 +22,13 @@ class MenuScreen extends Screen
 	private var lastUpdate:Int;
 	
 	public var bmp1:Bitmap; //layer with clouds
+	
+	var soundTransform:SoundTransform;
+	var snd:Sound;
+	
+	var theme:Sound;
+	var channel:SoundChannel;
+	var volume:Float = 0.2;
 
 	public function new()
 	{
@@ -27,6 +37,11 @@ class MenuScreen extends Screen
 
 	override public function onLoad():Void
 	{
+		snd = Assets.getSound("Sounds/Blip_Select.mp3");
+		theme = Assets.getSound("Sounds/Menu_Theme.mp3");
+		
+		soundTransform = new SoundTransform( 1.0, 0 );
+		
 		var bmd0:BitmapData = Assets.getBitmapData("UI/MenuScreen_0.png"); //load and display background
 		var bmp0:Bitmap = new Bitmap(bmd0);
 		bmp0.x = 0;
@@ -96,12 +111,15 @@ class MenuScreen extends Screen
 		iconMute.scaleY = 2;
 		addChild(iconMute);
 		
+		channel = theme.play( 0, 100,new SoundTransform( volume, 0 ));
+		
 		lastUpdate = Lib.getTimer();
 		addEventListener( Event.ENTER_FRAME, update );
 	}
 
 	public function update(e:Event)
 	{
+		
 		var now:Int = Lib.getTimer();
 		var secondsPassed:Float = (now-lastUpdate) / 1000;
 		lastUpdate = now;
@@ -118,25 +136,41 @@ class MenuScreen extends Screen
 	
 	private function onPlayClick()// run game when button is pressed
 	{
+		if (Main.mute == false)
+		{
+			snd.play( 0, 1, soundTransform );
+		}
+		channel.stop();
 		Main.sm.changeScreen(ScreenType.Game);
 	}
 	
 	private function onQuitClick()// run game when button is pressed
 	{
+		if (Main.mute == false)
+		{
+			snd.play( 0, 1, soundTransform );
+		}
 		System.exit(0);
 	}
-
 	
 	private function onMuteClick()// run game when button is pressed
 	{
-		//Main.instance.loadScreen( ScreenType.Game );
 		if (Main.mute == true)
 		{
 			Main.mute = false;
+			snd.play( 0, 1, soundTransform );
+			channel = theme.play( 0, 100,new SoundTransform(volume, 0 ));
 		}
 		else {
 			Main.mute = true;
+			channel.stop();
 		}
 		trace(Main.mute);
+	}
+	
+	override public function onDestroy():Void
+	{
+		channel.stop();
+		channel = null;
 	}
 }
