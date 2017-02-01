@@ -33,20 +33,10 @@ class Button extends Sprite
 	var image:Bitmap;
 
 	var callback:Void->Void;
-	
+
 	var snd:Sound;
 	var channel:SoundChannel;
 
-	/**
-	 * Create the button
-	 *
-	 * @param up 		The bitmap data for the up state
-	 * @param over 		The bitmap data for the over state
-	 * @param down 		The bitmap data for the down state
-	 * @param label 	The text on the button
-	 * @param callback	The function to be called when the button is clicked
-	 *
-	 */
 	public function new(callback:Void->Void )
 	{
 		super();
@@ -66,7 +56,7 @@ class Button extends Sprite
 	function init( e:Event)
 	{
 		snd = Assets.getSound("Sounds/Blip_Select.mp3");
-		
+
 		removeEventListener( Event.ADDED_TO_STAGE, init );
 		addEventListener( MouseEvent.CLICK, onClick );
 		addEventListener( MouseEvent.MOUSE_OVER, onHover );
@@ -106,9 +96,10 @@ class Button extends Sprite
 		}
 		callback();
 	}
-	
+
 	function onSoundComplete( e:Event ):Void
 	{
 		channel = null;
 	}
+	
 }

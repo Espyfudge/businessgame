@@ -1,7 +1,5 @@
 package;
 
-import screens.ScreenType;
-
 import openfl.Assets;
 import openfl.display.Sprite;
 import openfl.events.KeyboardEvent;
@@ -11,6 +9,7 @@ import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.Stage;
 import openfl.Lib;
+import screens.ScreenType;
 
 import openfl.display.Tile;
 import openfl.display.Tileset;
@@ -21,6 +20,7 @@ import openfl.media.SoundTransform;
 
 import openfl.geom.Rectangle;
 
+
 class Player extends Sprite {
 	
 	var lastUpdate : Int;
@@ -29,8 +29,8 @@ class Player extends Sprite {
 	var gravity : Float = 0.8;
 	var velocity : Point = new Point( 0, 0 );
 	var isOnGround : Bool;
-	
-	var soundTransform:SoundTransform;
+
+	var sTransform:SoundTransform;
 	var soundHit:Sound;
 	var soundJump:Sound;
 	var soundEHit:Sound;
@@ -42,7 +42,7 @@ class Player extends Sprite {
 	//LYN
 	var lastKey:Int;
 	
-	var playerHealth : Int = 100;
+	public var playerHealth : Int = 100;
 
 	// tilesheet instance containing the sprite sheet
 	var tileSet : Tileset;
@@ -60,7 +60,7 @@ class Player extends Sprite {
 
 	// time measurement to get proper frame rate
 	var currentDuration : Int = 0;
-	var currentFrame : Int = 1;
+	var currentFrame : Int = 0;
 
 	// arrays containing the frame numbers of the animations in sprite sheet
 	var idleLeftSequence : Array<Int> = [0];
@@ -91,7 +91,7 @@ class Player extends Sprite {
 
 	var sEnemy : Array<SecondEnemy>;
 
-	var screen : screens.GameScreen;
+	var screen : screens.Screen;
 
 	var thrownTimer : Int = 0;
 	var thrown : Bool = false;
@@ -102,7 +102,10 @@ class Player extends Sprite {
 	var hitTimer : Int = 0;
 	var gotHit : Bool = false;
 
-	public function new (s:screens.GameScreen) {
+	var isDead : Bool;
+	var deadTimer : Int = 0;
+
+	public function new (s:screens.Screen) {
 
 		super();
 
@@ -110,9 +113,8 @@ class Player extends Sprite {
 
 		var bitmapData : BitmapData = Assets.getBitmapData( "assets/CharacterSheet.png" );
 		tileSet = new Tileset( bitmapData );
-		
+
 		soundAttack = Assets.getSound("Sounds/Attack.mp3");
-		soundEHit = Assets.getSound("Sounds/Hit_enemies.mp3");
 		soundHit = Assets.getSound("Sounds/Hit.mp3");
 		soundJump = Assets.getSound("Sounds/Jump.mp3");
 
@@ -179,14 +181,28 @@ class Player extends Sprite {
 
 		}
 
+		if (mainMain)		
+		{				
+			removeEventListener(Event.ENTER_FRAME, everyFrame );
+			removeEventListener(Event.ENTER_FRAME, update);	
+
+			playerHealth = -10;
+			trace(playerHealth);
+
+			screen.channel.stop();
+			mainMain = false;
+
+			screen.deleteLevel();
+
+		}
 
 	}
 
-	public function keyDown( event : KeyboardEvent ) : Void 
-	{
+	public function keyDown( event : KeyboardEvent ) : Void {
+
 		// key is pressed 
 		keys[event.keyCode] = true;
-		
+
 		//LYN
 		lastKey = event.keyCode;
 
@@ -197,27 +213,22 @@ class Player extends Sprite {
 		// key isn't pressed down 
 		keys[event.keyCode] = false;
 		if ( event.keyCode == 40 ) {
+
 			attackPressed = false;
+
 		}
-		
-		if (lastKey == 27)
+
+		if (lastKey == 8)
 		{
 			mainMain = true;
 		}
-		
-		
-		//Debug to test taking dmg
-		//because enemies do 0 dmg atm
-		if (lastKey == 69)
-		{
-			takeDamage(10);
-		}
+
 	}
 
 	function everyFrame( event : Event ) : Void {
 
 		// if the character is higher above ( less than) #
-		if ( this.y < 330 ) {
+		if ( this.y < 318 ) {
 
 			// gravity applies, character isn't on ground
 			velocity.y += gravity;
@@ -228,7 +239,7 @@ class Player extends Sprite {
 
 			// if character is on the level above, he is on ground
 			velocity.y = 0;
-			this.y = 330;
+			this.y = 318;
 			isOnGround = true;
 
 		}
@@ -283,14 +294,14 @@ class Player extends Sprite {
 		}
 		
 
-		if ((keys[32] && isOnGround) || (keys[38] && isOnGround)) {
+		if ((keys[32] || keys[38])  && isOnGround) {
 
 			velocity.y -= 15;
+
 			if (Main.mute == false)
 			{
-				soundJump.play( 0, 1, soundTransform );
+				soundJump.play( 0, 1, sTransform );
 			}
-			
 			
 			if ( faces == 0 ) {
 
@@ -312,25 +323,12 @@ class Player extends Sprite {
 
 		if (keys[40] && isOnGround && !attackPressed && timer == 0) {
 
-			
-			trace("this.x = " + this.x);
-			trace("character.x = " + character.x);
-			//trace("this.y = " + this.y);
-			//trace("character.y = " + character.y);
-			//var projectile : Projectile = new Projectile(projectileID, enemy, Player, this, faces == 0);
-			//projectiles[projectileID] = projectile;
-			
-			
-			//LYN
-			//This is the code to play the sound when the enemy is hit by the player
-			//if (Main.mute == false)
-			//{
-			//	soundEHit.play( 0, 1, soundTransform );
-			//}
-			
-			//projectileID++;
+			var projectile : Projectile = new Projectile(projectileID, enemy, sEnemy, this, faces == 0);
+			projectiles[projectileID] = projectile;
 
-			//screen.addChild( projectile );
+			projectileID++;
+
+			screen.addChild( projectile );
 			
 			thrown = true;
 			thrownTimer = 0;
@@ -353,10 +351,12 @@ class Player extends Sprite {
 
 		if(thrown)
 		{
+
 			if (Main.mute == false)
 			{
-				soundAttack.play( 0, 1, soundTransform );
+				soundAttack.play( 0, 1, sTransform );
 			}
+
 			velocity.x = 0;
 
 			if ( faces == 0 ) {
@@ -390,25 +390,21 @@ class Player extends Sprite {
 
 			}
 		}
-		//Press escape to go to main menu
-		if (mainMain)		
-		{				
-			removeChild(character);				
-			Main.sm.changeScreen(ScreenType.Menu);
-			screen.channel.stop();
-			mainMain = false;
-		}
+
 
 		// tests for the takedamage function
 		if (gotHit) {
+			
 			if (Main.mute == false)
 			{
 				soundHit.play( 0, 1, new SoundTransform(0.125, 0) );
 			}
+
 			velocity.x = 0;
 			if ( faces == 0 ) {
 
 				currentStateFrames = hitLeftSequence;
+
 			}
 			else {
 
@@ -418,7 +414,7 @@ class Player extends Sprite {
 
 			hitTimer++;
 
-			if(hitTimer >= 25) {
+			if(hitTimer >= 20) {
 			
 				hitTimer = 0;
 				gotHit = false;
@@ -436,12 +432,11 @@ class Player extends Sprite {
 				
 			}
 		}
+
 		if (gameOver)
-		{
-			removeChild(character);				
+		{			
 			Main.sm.changeScreen(ScreenType.GameOver);
 			screen.channel.stop();
-			playerHealth = 100;
 			gameOver = false;
 		}
 
@@ -455,7 +450,7 @@ class Player extends Sprite {
 
 	public function takeDamage ( damage : Int ) {
 
-		playerHealth -= damage; //10 DMG = HALF HEART 20 DMG = FULL HEART
+		playerHealth -= damage;
 			trace(playerHealth);
 		
 		
@@ -465,22 +460,14 @@ class Player extends Sprite {
 
 		}
 
+		
 
-		if ( playerHealth <= 0 )
+
+		if ( playerHealth == 0 )
 		{
-			trace("dead");
-			/*if ( faces == 0) {
+			trace("dead");			
+			isDead = true;
 
-				currentStateFrames = dyingLeftSequence;
-
-			}
-			else {
-
-				currentStateFrames = dyingRightSequence;
-
-			}*/
-			//run player dying animation + start gameover screen
-			gameOver = true; //loads gameover screen
 		}
 
 	}
@@ -493,8 +480,46 @@ class Player extends Sprite {
 
 		updates( deltaTime );
 
+		//tests for takedamage - if player is dead
+		
+
+		if ( isDead ) {
+
+			screen.addChild(this);
+			removeEventListener(Event.ENTER_FRAME, everyFrame);
+
+			if( faces == 0 ) {
+
+				currentStateFrames = dyingLeftSequence;
+
+			}
+			else { 
+
+				currentStateFrames = dyingRightSequence;
+
+			}
+
+			deadTimer++;
+
+			if (deadTimer == 50) {
+
+				screen.removeChild(this);
+				removeEventListener(Event.ENTER_FRAME, updates);
+				removeEventListener(Event.ENTER_FRAME, update);
+
+			}
+
+			if (deadTimer == 100) {
+
+				gameOver = true;
+
+			}
+			
+
+		}
+
 	}
-	
+
 	public function getHealth():Int{
 		return playerHealth;
 	}

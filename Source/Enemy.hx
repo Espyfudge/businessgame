@@ -26,7 +26,7 @@ class Enemy extends Sprite {
 	var isOnGround : Bool;
 
 	var enemyHealth : Int = 100;
-	var enemyDamage : Int = 35;
+	var enemyDamage : Int = 20;
 
 
 	// tilesheet instance containing the sprite sheet
@@ -35,20 +35,20 @@ class Enemy extends Sprite {
 	public var enemy : Tilemap;
 
 	// variable determining frame rate of animations
-	static inline var fps : Int = 4;
+	static inline var fps : Int = 5;
 
 	// calculates milliseconds every frame should be visible (based on fps)
 	var msPerFrame : Int = Std.int( 1000 / fps );
 
 	// total amount of frames in the sprite sheet (to define fram rectangles)
-	static inline var frameCount : Int = 36;
+	static inline var frameCount : Int = 44;
 
 	// time measurement to get proper frame rate
 	var currentDuration : Int = 0;
 	var currentFrame : Int = 1;
 
 	// arrays containing the frame numbers of the animations in sprite sheet
-	var leftAttackSequence : Array<Int> = [0, 1, 2];
+	var attackLeftSequence : Array<Int> = [0, 1, 2];
 	var attackRightSequence : Array<Int> = [3, 4, 5];
 	var dyingLeftSequence : Array<Int> = [6, 7, 8, 9, 10, 11, 12];
 	var dyingRightSequence : Array<Int> = [19, 18, 17, 16, 15, 14, 13];
@@ -56,6 +56,8 @@ class Enemy extends Sprite {
 	var idleRightSequence : Array<Int> = [21];
 	var walkLeftSequence : Array<Int> = [22, 23, 24, 25, 26, 27, 28];
 	var walkRightSequence : Array<Int> = [29, 30, 31, 32, 33, 34, 35];
+	var hitLeftSequence : Array<Int> = [36, 37, 38, 39];
+	var hitRightSequence : Array<Int> = [43, 42, 41, 40];
 
 	// current animation. one of sequences will be referenced by this var
 	var currentStateFrames : Array<Int>;	
@@ -67,9 +69,19 @@ class Enemy extends Sprite {
 
 	var mainStage : Stage;
 
-	var main : screens.GameScreen;
+	var main : screens.Screen;
 
-	public function new ( st : screens.GameScreen, playerRef : Player, enemyX : Int ) {
+	var timer : Int = 0;
+	var playerHit : Bool;
+
+	var gotHit : Bool;
+	var hitTimer : Int = 0;
+
+	var isDead : Bool;
+	var deadTimer : Int = 0;
+	
+
+	public function new ( st : screens.Screen, playerRef : Player, enemyX : Int ) {
 
 		super();
 
@@ -104,6 +116,7 @@ class Enemy extends Sprite {
 
 
 		this.addEventListener(Event.ENTER_FRAME, everyFrame );
+		this.addEventListener(Event.ENTER_FRAME, damagePlayer );
 
 
 	}
@@ -144,7 +157,7 @@ class Enemy extends Sprite {
 	function everyFrame( event : Event ) : Void {
 
 		// if the enemy is higher above ( less than ) #
-		if ( this.y < 670 ) {
+		if ( this.y < 318 ) {
 
 			// gravity applies, enemy isn't on ground
 			velocity.y += gravity;
@@ -154,20 +167,22 @@ class Enemy extends Sprite {
 		else {
 
 			velocity.y = 0;
-			this.y = 670;
+			this.y = 318;
 			isOnGround = true;
 
 		}
 
-		if ( this.x > player.x ) {
+		if ( this.x >= player.x + 30 ) {
 
-			velocity.x = -0.8;
+			velocity.x = -0.4;
+			faces = 0;
 			currentStateFrames = walkLeftSequence;
 
 		}
-		else if (this.x < player.x ) {
+		else if ( this.x <= player.x - 30 ) {
 
-			velocity.x = 0.8;
+			velocity.x = 0.4;
+			faces = 1;
 			currentStateFrames = walkRightSequence;
 
 		}
@@ -177,8 +192,46 @@ class Enemy extends Sprite {
 
 		}
 		
+		enemy.x = this.x;
+		enemy.y = this.y;
 		this.y += velocity.y;
 		this.x += velocity.x;
+
+		//tests for takedamage function
+		if (gotHit) {
+			
+			velocity.x = 0;
+			if ( faces == 0 ) {
+
+				currentStateFrames = hitLeftSequence;
+
+			}
+			else {
+
+				currentStateFrames = hitRightSequence;
+
+			}
+
+			hitTimer++;
+
+			if(hitTimer >= 30) {
+			
+				hitTimer = 0;
+				gotHit = false;
+
+				if( faces == 0 ) {
+
+					currentStateFrames = idleLeftSequence;
+
+				}
+				else {
+
+					currentStateFrames = idleRightSequence;
+
+				}
+				
+			}
+		}
 
 	}
 
@@ -190,8 +243,45 @@ class Enemy extends Sprite {
 
 		updates( deltaTime );
 
+		//tests for takedamage - if enemy is dead
+		if (isDead) {
+			
+			removeEventListener(Event.ENTER_FRAME, everyFrame );
+			removeEventListener(Event.ENTER_FRAME, damagePlayer);
 
+			if ( faces == 0 ) {
+				
+				currentStateFrames = dyingLeftSequence;
 
+			}
+			else {
+
+				currentStateFrames = dyingRightSequence;
+
+			}
+
+			deadTimer++;
+
+			if(deadTimer == 33) {
+			
+				main.enemy.remove( this );
+				main.removeChild( this );
+				
+			}
+
+		}
+
+	}
+
+	public function removeEnemy() {
+
+		removeEventListener(Event.ENTER_FRAME, everyFrame );
+		removeEventListener(Event.ENTER_FRAME, damagePlayer);
+		removeEventListener(Event.ENTER_FRAME, update);
+		removeEventListener(Event.ENTER_FRAME, updates);
+
+		main.enemy.remove( this );
+		main.removeChild( this );
 
 	}
 
@@ -199,14 +289,65 @@ class Enemy extends Sprite {
 
 		enemyHealth -= damage;
 
+		if ( enemyHealth > 0 ) {
+
+			gotHit = true;
+
+		}
+
 		if ( enemyHealth <= 0 ) {
 
-			main.enemy.remove( this );
-			main.removeChild( this );
+			isDead = true;
 
 		}
 
 	}
 
+	public function damagePlayer ( event : Event ) {
+
+		if ( playerHit ) {
+			
+			timer++;
+
+		}
+
+		if ( timer == 120 ) {
+
+			timer = 0;
+			playerHit = false;
+
+		}
+
+		if ( timer == 0 ) {
+
+			if ( this.x >= player.x - 30 && this.x <= player.x + 30 ) {
+
+				if ( player.y > this.y - 70 ) {
+
+					if ( player.playerHealth > 0 ) {
+
+						if( faces == 0 ) {
+
+							currentStateFrames = attackLeftSequence;
+
+						}
+						else {
+
+							currentStateFrames = attackRightSequence;
+
+						}
+
+						player.takeDamage(enemyDamage);
+						playerHit = true;
+
+					}
+
+				}
 	
+			}
+
+		}
+
+	}
+
 }
