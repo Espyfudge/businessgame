@@ -5,6 +5,6 @@ package screens;
 enum ScreenType
 {
 	Menu;
-	Game;
+	Lev1;
 	GameOver;
 }
