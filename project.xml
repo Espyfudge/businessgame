@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<window width="1920" height="1080" background="#000000" fps="60" />
+	<window fullscreen="true" resizable="true" borderless="false" vsync="false" />
+
+	<meta title="BusinessWaves" package="com.sample.businesswaves" version="1.0.0" company="Company Name" />
+	<app main="Main" path="Export" file="BusinessWaves" />
+	
+	<source path="Source" />
+	
+	<haxelib name="openfl" />
+	
+	<assets path="Assets" rename="assets" />
+	<assets path="Assets/UI" rename="UI" />
+	
+</project>
