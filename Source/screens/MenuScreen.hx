@@ -2,6 +2,7 @@ package screens;
 
 import flash.system.System;
 
+
 import openfl.Assets;
 import openfl.Lib;
 import openfl.display.Bitmap;
@@ -13,6 +14,7 @@ import openfl.media.Sound;
 import openfl.media.SoundChannel;
 import openfl.media.SoundTransform;
 
+
 /**
  * ...
  * @author Lynette
@@ -22,14 +24,12 @@ class MenuScreen extends Screen
 	private var lastUpdate:Int;
 	
 	public var bmp1:Bitmap; //layer with clouds
-	
-	var soundTransform:SoundTransform;
+
+	var sTransform:SoundTransform;
 	var snd:Sound;
 	
-	var theme:Sound;
-	var channel:SoundChannel;
 	var volume:Float = 0.2;
-
+	
 	public function new()
 	{
 		super();
@@ -37,11 +37,12 @@ class MenuScreen extends Screen
 
 	override public function onLoad():Void
 	{
+
 		snd = Assets.getSound("Sounds/Blip_Select.mp3");
 		theme = Assets.getSound("Sounds/Menu_Theme.mp3");
 		
-		soundTransform = new SoundTransform( 1.0, 0 );
-		
+		sTransform = new SoundTransform( 1.0, 0 );
+
 		var bmd0:BitmapData = Assets.getBitmapData("UI/MenuScreen_0.png"); //load and display background
 		var bmp0:Bitmap = new Bitmap(bmd0);
 		bmp0.x = 0;
@@ -66,26 +67,26 @@ class MenuScreen extends Screen
 		bmp2.scaleY = 2;
 		addChild(bmp2);
 		
-		var PlayButton:Button = new Button(onPlayClick); 
-		PlayButton.x = 320;
-		PlayButton.y = 640;
-		PlayButton.scaleX = 2;
-		PlayButton.scaleY = 2;
-		addChild( PlayButton );
+		var playButton:Button = new Button(onPlayClick); 
+		playButton.x = 320;
+		playButton.y = 640;
+		playButton.scaleX = 2;
+		playButton.scaleY = 2;
+		addChild( playButton );
 		
-		var QuitButton:Button = new Button(onQuitClick); 
-		QuitButton.x = 320;
-		QuitButton.y = 770;
-		QuitButton.scaleX = 2;
-		QuitButton.scaleY = 2;
-		addChild( QuitButton );
+		var quitButton:Button = new Button(onQuitClick); 
+		quitButton.x = 320;
+		quitButton.y = 770;
+		quitButton.scaleX = 2;
+		quitButton.scaleY = 2;
+		addChild( quitButton );
 		
-		var MuteButton:Button = new Button(onMuteClick); 
-		MuteButton.x = 320;
-		MuteButton.y = 894;
-		MuteButton.scaleX = 2;
-		MuteButton.scaleY = 2;
-		addChild( MuteButton );
+		var muteButton:Button = new Button(onMuteClick); 
+		muteButton.x = 320;
+		muteButton.y = 894;
+		muteButton.scaleX = 2;
+		muteButton.scaleY = 2;
+		addChild( muteButton );
 		
 		var bmdPlay:BitmapData = Assets.getBitmapData("UI/Icon_Play.png"); //load and display background
 		var iconPlay:Bitmap = new Bitmap(bmdPlay);
@@ -110,7 +111,7 @@ class MenuScreen extends Screen
 		iconMute.scaleX = 2;
 		iconMute.scaleY = 2;
 		addChild(iconMute);
-		
+
 		channel = theme.play( 0, 100,new SoundTransform( volume, 0 ));
 		
 		lastUpdate = Lib.getTimer();
@@ -119,7 +120,6 @@ class MenuScreen extends Screen
 
 	public function update(e:Event)
 	{
-		
 		var now:Int = Lib.getTimer();
 		var secondsPassed:Float = (now-lastUpdate) / 1000;
 		lastUpdate = now;
@@ -138,39 +138,42 @@ class MenuScreen extends Screen
 	{
 		if (Main.mute == false)
 		{
-			snd.play( 0, 1, soundTransform );
+			snd.play( 0, 1, sTransform );
 		}
 		channel.stop();
-		Main.sm.changeScreen(ScreenType.Game);
+		Main.sm.changeScreen(ScreenType.Lev1);
 	}
 	
 	private function onQuitClick()// run game when button is pressed
 	{
 		if (Main.mute == false)
 		{
-			snd.play( 0, 1, soundTransform );
+			snd.play( 0, 1, sTransform );
 		}
-		System.exit(0);
+		Lib.fscommand("quit");
 	}
+
 	
 	private function onMuteClick()// run game when button is pressed
 	{
+	
 		if (Main.mute == true)
 		{
 			Main.mute = false;
-			snd.play( 0, 1, soundTransform );
+			snd.play( 0, 1, sTransform );
 			channel = theme.play( 0, 100,new SoundTransform(volume, 0 ));
 		}
 		else {
 			Main.mute = true;
 			channel.stop();
 		}
-		trace(Main.mute);
+		
 	}
-	
+
 	override public function onDestroy():Void
 	{
 		channel.stop();
 		channel = null;
 	}
+
 }
