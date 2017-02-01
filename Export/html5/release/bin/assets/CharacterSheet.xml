@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:8122cc57e84ce33621764de494a02482:dee75ea6effe24cdf105dde622bf65e1:3210efd3e873af9558de146408902e1f$ -->
+<TextureAtlas imagePath="CharacterSheet.png" width="3584" height="256">
+    <SubTexture name="still_left" x="0" y="0" width="256" height="256"/>
+    <SubTexture name="still_right" x="256" y="0" width="256" height="256"/>
+    <SubTexture name="walking_left_1" x="512" y="0" width="256" height="256"/>
+    <SubTexture name="walking_left_2" x="768" y="0" width="256" height="256"/>
+    <SubTexture name="walking_left_3" x="1024" y="0" width="256" height="256"/>
+    <SubTexture name="walking_left_4" x="1280" y="0" width="256" height="256"/>
+    <SubTexture name="walking_left_5" x="1536" y="0" width="256" height="256"/>
+    <SubTexture name="walking_left_6" x="1792" y="0" width="256" height="256"/>
+    <SubTexture name="walking_right_1" x="2048" y="0" width="256" height="256"/>
+    <SubTexture name="walking_right_2" x="2304" y="0" width="256" height="256"/>
+    <SubTexture name="walking_right_3" x="2560" y="0" width="256" height="256"/>
+    <SubTexture name="walking_right_4" x="2816" y="0" width="256" height="256"/>
+    <SubTexture name="walking_right_5" x="3072" y="0" width="256" height="256"/>
+    <SubTexture name="walking_right_6" x="3328" y="0" width="256" height="256"/>
+</TextureAtlas>

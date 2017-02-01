@@ -150,7 +150,9 @@ class MenuScreen extends Screen
 		{
 			snd.play( 0, 1, sTransform );
 		}
+		#if flash
 		Lib.fscommand("quit");
+		#end
 	}
 
 	

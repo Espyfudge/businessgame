@@ -107,38 +107,54 @@ class Level1 extends Screen
 
 	public function update(e:Event)
 	{
-		switch (player.getHealth())
+		var playerHP:Int = player.getHealth();
+		
+		if (playerHP < 100)
 		{
-			case 90:
-				//90 hp
+			if (playerHP == 90)
+			{
 				heart05.bitmapData = heartHalfBMD;
-			case 80:
-				//80hp;
+			}
+			else if ( playerHP < 90)
+			{
 				heart05.bitmapData = heartEmptyBMD;
-			case 70:
-				//70 hp
+			}
+			
+			if (playerHP == 70)
+			{
 				heart04.bitmapData = heartHalfBMD;
-			case 60:
-				//60hp;
+			}
+			else if ( playerHP < 70)
+			{
 				heart04.bitmapData = heartEmptyBMD;
-			case 50:
-				//50 hp
+			}
+			
+			if (playerHP == 50)
+			{
 				heart03.bitmapData = heartHalfBMD;
-			case 40:
-				//40hp;
+			}
+			else if ( playerHP < 50)
+			{
 				heart03.bitmapData = heartEmptyBMD;
-			case 30:
-				//30 hp
+			}
+			
+			if (playerHP == 30)
+			{
 				heart02.bitmapData = heartHalfBMD;
-			case 20:
-				//20hp;
+			}
+			else if ( playerHP < 30)
+			{
 				heart02.bitmapData = heartEmptyBMD;
-			case 10:
-				//10 hp
+			}
+			
+			if (playerHP == 10)
+			{
 				heart01.bitmapData = heartHalfBMD;
-			case 0:
-				//0 hp
+			}
+			else if ( playerHP < 10)
+			{
 				heart01.bitmapData = heartEmptyBMD;
+			}
 		}
 	}
 

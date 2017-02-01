@@ -222,6 +222,15 @@ class Player extends Sprite {
 		{
 			mainMain = true;
 		}
+		
+		if (lastKey == 69)
+		{
+			takeDamage(10);
+		}
+		if (lastKey == 70)
+		{
+			takeDamage(20);
+		}
 
 	}
 
@@ -463,7 +472,7 @@ class Player extends Sprite {
 		
 
 
-		if ( playerHealth == 0 )
+		if ( playerHealth <= 0 )
 		{
 			trace("dead");			
 			isDead = true;
