@@ -4,11 +4,8 @@ import openfl.display.Sprite;
 
 import screens.*;
 
-/**
- * Demonstrates a way to devide up an application into seperate screens represented by their own class.
- *
- * This Main class is a Singleton
- */
+//@author Lynette
+// divides the application into multiple screens, each with their own classes
 class ScreenManager extends Sprite 
 {
 
@@ -18,26 +15,17 @@ class ScreenManager extends Sprite
 	private var m:ScreenManager;
 
 	// the static variable pointing to the instance of this class
-	// see http://haxe.org/manual/class-field-property.html for the access modifiers
 	public static var instance(get, null):ScreenManager;
 
-	/** 
-	 * This constructor does not do much...
-	 */
 	private function new () 
 	{
 		super ();
 	}
 
-	/**
-	 * Load a screen.
-	 * If there is a screen active:
-	 * - it is removed first from the display list
-	 * - it's onDestroy function is called to do possible house keeping tasks
-	 *
-	 * Then a check is done for which screen to load, 
-	 *  it is instantitated, added to the display list and it's onLoad function is called.
-	 */
+	// Loads a screen.
+	//If there is a screen active it is removed first from the display list and
+	//it's onDestroy function is called to do possible house keeping tasks
+	//Then it checks which screen to load and loads it and calls its onLoad function
 	public function loadScreen( which:ScreenType )
 	{
 		if( currentScreen != null )
@@ -50,10 +38,22 @@ class ScreenManager extends Sprite
 		{
 			case ScreenType.Menu:
 				currentScreen = new MenuScreen();
+			case ScreenType.Story:
+				currentScreen = new StoryScreen();
 			case ScreenType.Lev1:
 				currentScreen = new Level1();
+			case ScreenType.Lev2:
+				currentScreen = new Level2();
+			case ScreenType.Lev3:
+				currentScreen = new Level3();
+			case ScreenType.Lev4:
+				currentScreen = new Level4();
+			case ScreenType.Lev5:
+				currentScreen = new Level5();
 			case ScreenType.GameOver:
 				currentScreen = new GameOverScreen();
+			case ScreenType.Win:
+				currentScreen = new WinScreen();
 
 		}
 
@@ -62,10 +62,8 @@ class ScreenManager extends Sprite
 		trace(currentScreen);
 	}
 
-	/**
-	 * The public access to the private instance variable
-	 *
-	 */
+	
+	//The public access to the private instance variable
 	public static function get_instance():ScreenManager
 	{
 		if( instance == null )
@@ -74,6 +72,7 @@ class ScreenManager extends Sprite
 		return instance;
 	}
 	
+	//sets which screen to load
 	public function changeScreen(which:ScreenType)
 	{
 		m.loadScreen(which);

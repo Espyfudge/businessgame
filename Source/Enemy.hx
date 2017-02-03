@@ -16,7 +16,8 @@ import openfl.display.Tilemap;
 import openfl.geom.Rectangle;
 import openfl.geom.Point;
 
-
+//@author Rutger
+// the regular walking enemy 
 class Enemy extends Sprite {
 
 	var lastUpdate : Int;
@@ -27,7 +28,6 @@ class Enemy extends Sprite {
 
 	var enemyHealth : Int = 100;
 	var enemyDamage : Int = 20;
-
 
 	// tilesheet instance containing the sprite sheet
 	var tileSet : Tileset;
@@ -80,18 +80,14 @@ class Enemy extends Sprite {
 	var isDead : Bool;
 	var deadTimer : Int = 0;
 	
-
+	// adds spritesheet and eventlisteners
 	public function new ( st : screens.Screen, playerRef : Player, enemyX : Int ) {
 
 		super();
 
 		player = playerRef;
-		
-		main = st;
-		
+		main = st;		
 		mainStage = st.stage;
-
-		
 
 		var bitmapData : BitmapData = Assets.getBitmapData( "assets/EnemySheet.png" );
 		tileSet = new Tileset( bitmapData );
@@ -111,16 +107,14 @@ class Enemy extends Sprite {
 		this.addEventListener( Event.ENTER_FRAME, updates );
 		this.addEventListener( Event.ENTER_FRAME, update );
 
-
 		lastUpdate = Lib.getTimer();
-
 
 		this.addEventListener(Event.ENTER_FRAME, everyFrame );
 		this.addEventListener(Event.ENTER_FRAME, damagePlayer );
 
-
 	}
 
+	// selects the frames in the sheet
 	function initializeSpriteSheet() {
 
 		// frames are 128x128
@@ -154,6 +148,7 @@ class Enemy extends Sprite {
 
 	}
 
+	// applies gravity, checks for player y to add movement, and adds animations
 	function everyFrame( event : Event ) : Void {
 
 		// if the enemy is higher above ( less than ) #
@@ -174,14 +169,14 @@ class Enemy extends Sprite {
 
 		if ( this.x >= player.x + 30 ) {
 
-			velocity.x = -0.4;
+			velocity.x = -0.9;
 			faces = 0;
 			currentStateFrames = walkLeftSequence;
 
 		}
 		else if ( this.x <= player.x - 30 ) {
 
-			velocity.x = 0.4;
+			velocity.x = 0.9;
 			faces = 1;
 			currentStateFrames = walkRightSequence;
 
@@ -197,7 +192,7 @@ class Enemy extends Sprite {
 		this.y += velocity.y;
 		this.x += velocity.x;
 
-		//tests for takedamage function
+		//tests for takedamage function, if enemy got hit
 		if (gotHit) {
 			
 			velocity.x = 0;
@@ -235,6 +230,7 @@ class Enemy extends Sprite {
 
 	}
 
+	// runs isDead if set to true in other function
 	function update ( event : Event ) {
 
 		var now : Int = Lib.getTimer();
@@ -264,6 +260,7 @@ class Enemy extends Sprite {
 
 			if(deadTimer == 33) {
 			
+				main.timehead.x -= (355 / main.totalEn);
 				main.enemy.remove( this );
 				main.removeChild( this );
 				
@@ -273,6 +270,7 @@ class Enemy extends Sprite {
 
 	}
 
+	// removes eventlisteners and the enemy from the level screen
 	public function removeEnemy() {
 
 		removeEventListener(Event.ENTER_FRAME, everyFrame );
@@ -285,6 +283,7 @@ class Enemy extends Sprite {
 
 	}
 
+	// removes health from enemy if taken damage, checks if enemy still has health to run correct animations
 	public function takeDamage ( damage : Int ) {
 
 		enemyHealth -= damage;
@@ -303,6 +302,7 @@ class Enemy extends Sprite {
 
 	}
 
+	// checks for range to player and damages them if in range, timer on it so it cant hit every frame
 	public function damagePlayer ( event : Event ) {
 
 		if ( playerHit ) {

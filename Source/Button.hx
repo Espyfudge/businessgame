@@ -18,10 +18,8 @@ import openfl.media.Sound;
 import openfl.media.SoundChannel;
 import openfl.media.SoundTransform;
 
-/**
- * A fairly crude button with state functionality and a callback for when clicked.
- *
- */
+//@author Lynette
+//button base with callback to activate specified function
 class Button extends Sprite 
 {
 	var upBitmapData:BitmapData;
@@ -37,6 +35,8 @@ class Button extends Sprite
 	var snd:Sound;
 	var channel:SoundChannel;
 
+	// creates the bitmaps for different states, adds eventlisteners and sets callback parameter
+	// when called, parameter will contain the function to be called
 	public function new(callback:Void->Void )
 	{
 		super();
@@ -53,6 +53,7 @@ class Button extends Sprite
 		addEventListener( Event.ADDED_TO_STAGE, init );
 	}
 
+	// adds eventlisteners and music
 	function init( e:Event)
 	{
 		snd = Assets.getSound("Sounds/Blip_Select.mp3");
@@ -65,6 +66,7 @@ class Button extends Sprite
 		stage.addEventListener( MouseEvent.MOUSE_UP, onUp );
 	}
 
+	// specifies which bitmaps to use in the specific states
 	function onHover( e:MouseEvent ):Void
 	{
 		if( mousePressed )
@@ -86,7 +88,7 @@ class Button extends Sprite
 		image.bitmapData = upBitmapData;
 		mousePressed = false;
 	}
-
+	// plays sound on click of button and calls the callback
 	function onClick( e:MouseEvent ):Void
 	{
 		if (Main.mute == false)
@@ -96,7 +98,7 @@ class Button extends Sprite
 		}
 		callback();
 	}
-
+	
 	function onSoundComplete( e:Event ):Void
 	{
 		channel = null;

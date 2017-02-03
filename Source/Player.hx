@@ -20,7 +20,8 @@ import openfl.media.SoundTransform;
 
 import openfl.geom.Rectangle;
 
-
+//@author Rutger
+// creates the player character including animations and controls
 class Player extends Sprite {
 	
 	var lastUpdate : Int;
@@ -30,6 +31,7 @@ class Player extends Sprite {
 	var velocity : Point = new Point( 0, 0 );
 	var isOnGround : Bool;
 
+	// Lynnette
 	var sTransform:SoundTransform;
 	var soundHit:Sound;
 	var soundJump:Sound;
@@ -39,8 +41,8 @@ class Player extends Sprite {
 	
 	var mainMain:Bool = false;
 	
-	//LYN
 	var lastKey:Int;
+	//
 	
 	public var playerHealth : Int = 100;
 
@@ -105,6 +107,7 @@ class Player extends Sprite {
 	var isDead : Bool;
 	var deadTimer : Int = 0;
 
+	// loads spritesheet, sounds, and eventlisteners
 	public function new (s:screens.Screen) {
 
 		super();
@@ -114,12 +117,11 @@ class Player extends Sprite {
 		var bitmapData : BitmapData = Assets.getBitmapData( "assets/CharacterSheet.png" );
 		tileSet = new Tileset( bitmapData );
 
-		soundAttack = Assets.getSound("Sounds/Attack.mp3");
+		soundAttack = Assets.getSound("Sounds/Attack.mp3"); // Lynette
 		soundHit = Assets.getSound("Sounds/Hit.mp3");
-		soundJump = Assets.getSound("Sounds/Jump.mp3");
+		soundJump = Assets.getSound("Sounds/Jump.mp3"); // 
 
 		character = new Tilemap( 256, 256, tileSet);
-		character.x = -150;
 		initializeSpriteSheet();
 
 		character.addTile( new Tile( 0 ) );
@@ -151,6 +153,7 @@ class Player extends Sprite {
 
 	}
 
+	// selects the frames in the sheet
 	function initializeSpriteSheet() {
 
 		// frames are 128x128
@@ -181,23 +184,9 @@ class Player extends Sprite {
 
 		}
 
-		if (mainMain)		
-		{				
-			removeEventListener(Event.ENTER_FRAME, everyFrame );
-			removeEventListener(Event.ENTER_FRAME, update);	
-
-			playerHealth = -10;
-			trace(playerHealth);
-
-			screen.channel.stop();
-			mainMain = false;
-
-			screen.deleteLevel();
-
-		}
-
 	}
 
+	// returns true if key is pressed
 	public function keyDown( event : KeyboardEvent ) : Void {
 
 		// key is pressed 
@@ -208,6 +197,7 @@ class Player extends Sprite {
 
 	}
 
+	// returns false if key is up
 	public function keyUp( event : KeyboardEvent) : Void {
 
 		// key isn't pressed down 
@@ -222,18 +212,10 @@ class Player extends Sprite {
 		{
 			mainMain = true;
 		}
-		
-		if (lastKey == 69)
-		{
-			takeDamage(10);
-		}
-		if (lastKey == 70)
-		{
-			takeDamage(20);
-		}
 
 	}
 
+	// applies gravity and implements player movement and actions depending on key pressed
 	function everyFrame( event : Event ) : Void {
 
 		// if the character is higher above ( less than) #
@@ -303,11 +285,11 @@ class Player extends Sprite {
 		}
 		
 
-		if ((keys[32] || keys[38])  && isOnGround) {
+		if (keys[38] && isOnGround) {
 
 			velocity.y -= 15;
 
-			if (Main.mute == false)
+			if (Main.mute == false) // Lynette
 			{
 				soundJump.play( 0, 1, sTransform );
 			}
@@ -361,7 +343,7 @@ class Player extends Sprite {
 		if(thrown)
 		{
 
-			if (Main.mute == false)
+			if (Main.mute == false && thrownTimer == 0) // Lynette
 			{
 				soundAttack.play( 0, 1, sTransform );
 			}
@@ -401,12 +383,12 @@ class Player extends Sprite {
 		}
 
 
-		// tests for the takedamage function
+		// tests for the takedamage function, if player is hit
 		if (gotHit) {
 			
-			if (Main.mute == false)
+			if (Main.mute == false) // Lynette 
 			{
-				soundHit.play( 0, 1, new SoundTransform(0.125, 0) );
+				soundHit.play( 0, 1, new SoundTransform(0.125, 0) ); 
 			}
 
 			velocity.x = 0;
@@ -440,23 +422,20 @@ class Player extends Sprite {
 				}
 				
 			}
-		}
 
-		if (gameOver)
-		{			
-			Main.sm.changeScreen(ScreenType.GameOver);
-			screen.channel.stop();
-			gameOver = false;
 		}
 
 	}
 
+	// destroys specific businesscard/projectile
 	public function destroyProjectile(proj:Int)
 	{
 		screen.removeChild(projectiles[proj]);
 		projectiles[proj] = null;
 	}
 
+	// runs when player is hit by an enemy, removes damage from health
+	// checks if player is still alive or not to run the right animation
 	public function takeDamage ( damage : Int ) {
 
 		playerHealth -= damage;
@@ -469,10 +448,7 @@ class Player extends Sprite {
 
 		}
 
-		
-
-
-		if ( playerHealth <= 0 )
+		if ( playerHealth <= 0 && playerHealth >= -40 )
 		{
 			trace("dead");			
 			isDead = true;
@@ -481,6 +457,7 @@ class Player extends Sprite {
 
 	}
 
+	// runs if arguments when their bool is set to true in other functions
 	function update ( event : Event ) {
 
 		var now : Int = Lib.getTimer();
@@ -489,9 +466,24 @@ class Player extends Sprite {
 
 		updates( deltaTime );
 
-		//tests for takedamage - if player is dead
-		
+		//Lynette 
+		if (mainMain)		
+		{				
+			removeEventListener(Event.ENTER_FRAME, everyFrame );
+			removeEventListener(Event.ENTER_FRAME, updates);
 
+			playerHealth = -100;
+			trace(playerHealth);
+
+			screen.channel.stop();
+			mainMain = false;
+
+			screen.deleteLevel();
+			Main.sm.changeScreen(ScreenType.Menu);
+
+		} //
+
+		//tests for takedamage function, if player is dead
 		if ( isDead ) {
 
 			screen.addChild(this);
@@ -510,15 +502,15 @@ class Player extends Sprite {
 
 			deadTimer++;
 
-			if (deadTimer == 50) {
+			if (deadTimer == 20) {
 
 				screen.removeChild(this);
+				removeChild(character);
 				removeEventListener(Event.ENTER_FRAME, updates);
-				removeEventListener(Event.ENTER_FRAME, update);
 
 			}
 
-			if (deadTimer == 100) {
+			if (deadTimer == 80) {
 
 				gameOver = true;
 
@@ -527,8 +519,19 @@ class Player extends Sprite {
 
 		}
 
+		// Lynette
+		if (gameOver)
+		{			
+			Main.sm.changeScreen(ScreenType.GameOver);
+			screen.channel.stop();
+			gameOver = false;
+			removeEventListener(Event.ENTER_FRAME, update);
+		} //
+
 	}
 
+	// Lynette
+	// checks playerHealth for use in Level screen
 	public function getHealth():Int{
 		return playerHealth;
 	}

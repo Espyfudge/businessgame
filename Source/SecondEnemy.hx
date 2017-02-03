@@ -16,7 +16,9 @@ import openfl.display.Tilemap;
 import openfl.geom.Rectangle;
 import openfl.geom.Point;
 
-
+// @author Mimosa
+// based on Enemy class
+// the roller enemy that goes from side to side of the screen
 class SecondEnemy extends Sprite
 {
 	
@@ -61,7 +63,7 @@ class SecondEnemy extends Sprite
 	var isDead : Bool;
 	var deadTimer : Int = 0;
 	
-
+	// adds spritesheet and eventlisteners
 	public function new(st : screens.Screen, playerRef : Player, secondEnemyX : Int) 
 	{
 		super();
@@ -98,6 +100,7 @@ class SecondEnemy extends Sprite
 		this.addEventListener(Event.ENTER_FRAME, damagePlayer );
 	}
 	
+	// selects the frames in the sheet
 	function initializeSpriteSheet() 
 	{
 		// frames are 256
@@ -124,6 +127,7 @@ class SecondEnemy extends Sprite
 		}
 	}
 	
+	// applies gravity, checks position to add correct movement 
 	function everyFrame( event : Event ) : Void 
 	{
 		// if the enemy is higher above ( less than ) 
@@ -145,13 +149,13 @@ class SecondEnemy extends Sprite
 		if ( this.x >= 2000 ) 
 		{
 			faces = 0;
-			velocity.x = -5;
+			velocity.x = -6;
 			currentStateFrames = rollLeftSequence;
 		}
 		else if (this.x <= -300 )
 		{
 			faces = 1;
-			velocity.x = 5;
+			velocity.x = 6;
 			currentStateFrames = rollRightSequence;
 		}
 
@@ -159,11 +163,10 @@ class SecondEnemy extends Sprite
 		secondEnemy.y = this.y;
 		this.y += velocity.y;
 		this.x += velocity.x;
-
-		//tests for takedamage function - if enemy is dead
 	
 	}
 	
+	// runs isDead function if turned to true in other function
 	function update ( event : Event ) 
 	{
 		var now : Int = Lib.getTimer();
@@ -193,6 +196,7 @@ class SecondEnemy extends Sprite
 
 			if(deadTimer == 30) {
 			
+				main.timehead.x -= (355 / main.totalEn);
 				main.rollEnemy.remove( this );
 				main.removeChild( this );
 	
@@ -202,6 +206,7 @@ class SecondEnemy extends Sprite
 
 	}
 	
+	// removes eventlisteners and the enemy from the level screen
 	public function removeEnemy() {
 
 		removeEventListener(Event.ENTER_FRAME, everyFrame );
@@ -215,6 +220,7 @@ class SecondEnemy extends Sprite
 
 	}
 
+	// removes health if taken damage, checks and sets isDead to true if 0 or less health
 	public function takeDamage ( damage : Int ) {
 
 		enemyHealth -= damage;
@@ -229,6 +235,8 @@ class SecondEnemy extends Sprite
 
 	}
 
+	// checks range to player and damages them if in range.
+	// timer so it doesn't damage every frame
 	public function damagePlayer ( event : Event ) {
 
 		if ( playerHit ) {
