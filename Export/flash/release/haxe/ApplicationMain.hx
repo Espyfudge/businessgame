@@ -26,7 +26,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "2",
+			build: "1300",
 			company: "Company Name",
 			file: "BusinessWaves",
 			fps: 60,
@@ -97,11 +97,31 @@ class ApplicationMain {
 		var types = [];
 		
 		
-		urls.push ("assets/bCard.png");
+		urls.push ("assets/79063.image0.jpg");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/character.png");
+		urls.push ("assets/BackgroundLevelFive.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/BackgroundLevelFour.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/BackgroundLevelOne.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/BackgroundLevelThree.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/BackgroundLevelTwo.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/bCard.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -109,19 +129,7 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/CharacterSheet.xml");
-		types.push (lime.Assets.AssetType.TEXT);
-		
-		
-		urls.push ("assets/character_left.png");
-		types.push (lime.Assets.AssetType.IMAGE);
-		
-		
-		urls.push ("assets/character_right.png");
-		types.push (lime.Assets.AssetType.IMAGE);
-		
-		
-		urls.push ("assets/charcater redo.png");
+		urls.push ("assets/elevatorSheet.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -129,23 +137,255 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/EnemySheet.xml");
+		urls.push ("assets/illustration1.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/illustration2.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/illustration3.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/CharacterSheet.xml");
 		types.push (lime.Assets.AssetType.TEXT);
 		
 		
-		urls.push ("assets/enemy_still_left.png");
+		urls.push ("assets/old/EnemySheet.xml");
+		types.push (lime.Assets.AssetType.TEXT);
+		
+		
+		urls.push ("assets/old/enemy_attack_1.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/MenuScreen.png");
+		urls.push ("assets/old/enemy_attack_2.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/playButton.png");
+		urls.push ("assets/old/enemy_attack_3.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/Player.png");
+		urls.push ("assets/old/enemy_attack_right_1.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_attack_right_2.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_attack_right_3.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_dying_left.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_dying_right.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_still_left.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_still_right.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_left_1.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_left_2.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_left_3.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_left_4.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_left_5.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_left_6.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_left_7.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_right_1.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_right_2.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_right_3.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_right_4.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_right_5.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_right_6.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/enemy_walking_right_7.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/MenuScreen.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/playButton.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/still_left.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/still_right.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/tempbackground.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/tempbackground1.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/tempcard.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/testback.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/throwing_left_1.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/throwing_left_2.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/throwing_left_3.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/throwing_right_1.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/throwing_right_2.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/throwing_right_3.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_left_1.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_left_2.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_left_3.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_left_4.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_left_5.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_left_6.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_left_7.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_right_1.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_right_2.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_right_3.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_right_4.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_right_5.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_right_6.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/walking_right_7.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/zjump.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/zjump1.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/zzhitleft.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/zzhitright.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/zzzdyingleft.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/old/zzzdyingright.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -158,6 +398,10 @@ class ApplicationMain {
 		
 		
 		urls.push ("assets/Sounds/Blip_Select.mp3");
+		types.push (lime.Assets.AssetType.MUSIC);
+		
+		
+		urls.push ("assets/Sounds/Ding_Elevator.mp3");
 		types.push (lime.Assets.AssetType.MUSIC);
 		
 		
@@ -179,14 +423,6 @@ class ApplicationMain {
 		
 		urls.push ("assets/Sounds/Menu_Theme.mp3");
 		types.push (lime.Assets.AssetType.MUSIC);
-		
-		
-		urls.push ("assets/tempbackground.png");
-		types.push (lime.Assets.AssetType.IMAGE);
-		
-		
-		urls.push ("assets/tempbackground1.png");
-		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
 		urls.push ("assets/UI/Button_Down.png");
@@ -238,6 +474,18 @@ class ApplicationMain {
 		
 		
 		urls.push ("assets/UI/MenuScreen_2.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/UI/TimerBar.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/UI/TimerHead.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/UI/YouWin.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -293,11 +541,27 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
+		urls.push ("UI/TimerBar.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("UI/TimerHead.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("UI/YouWin.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("Sounds/Attack.mp3");
 		types.push (lime.Assets.AssetType.MUSIC);
 		
 		
 		urls.push ("Sounds/Blip_Select.mp3");
+		types.push (lime.Assets.AssetType.MUSIC);
+		
+		
+		urls.push ("Sounds/Ding_Elevator.mp3");
 		types.push (lime.Assets.AssetType.MUSIC);
 		
 		
