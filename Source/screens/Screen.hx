@@ -16,14 +16,15 @@ import openfl.media.Sound;
 import openfl.media.SoundChannel;
 import openfl.media.SoundTransform;
 
-/**
- * The base class for all screens.
- * The onLoad and onDestroy can be implemented in the derived classes.
- */
+//@author Rutger
+//The base class for all screens.
+//onLoad and onDestroy can be implemented in the derived classes.
 class Screen extends Sprite
 {
 
 	var player : Player;
+	var elv : Elevator;
+	var elvCount : Int = 0;
 	public var enemy : Array<Enemy> = [];
 	public var rollEnemy : Array<SecondEnemy> = [];
 	var projectile : Projectile;
@@ -50,6 +51,10 @@ class Screen extends Sprite
 
 	var enemySpawn : Enemy;
 	var rEnemySpawn : SecondEnemy;
+
+	public var timehead : Bitmap;
+
+	public var totalEn : Int;
 
 	public function new()
 	{

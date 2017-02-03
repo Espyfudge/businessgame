@@ -8,11 +8,10 @@ import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.events.Event;
 
-/**
- * The base class for all screens.
- * The onLoad and onDestroy can be implemented in the derived classes.
- */
+import openfl.Lib;
 
+//@author Lynette
+// shows game over screen upon death ( lost all lives/hearts )
 class GameOverScreen extends Screen
 {
 	override public function new()
@@ -20,6 +19,7 @@ class GameOverScreen extends Screen
 		super();
 	}
 
+	// loads background and buttons
 	override public function onLoad():Void
 	{
 		var bmd0:BitmapData = Assets.getBitmapData("UI/GameOver.png"); //load and display background
@@ -68,10 +68,7 @@ class GameOverScreen extends Screen
 	
 	private function onQuitClick()// run game when button is pressed
 	{
-		System.exit(0);
+		Lib.fscommand("quit");
 	}
 	
-	override public function onDestroy():Void
-	{
-	}
 }

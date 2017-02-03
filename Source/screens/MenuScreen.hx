@@ -14,11 +14,8 @@ import openfl.media.Sound;
 import openfl.media.SoundChannel;
 import openfl.media.SoundTransform;
 
-
-/**
- * ...
- * @author Lynette
- */
+//@author Lynette
+//the menu screen for the game
 class MenuScreen extends Screen
 {
 	private var lastUpdate:Int;
@@ -29,12 +26,13 @@ class MenuScreen extends Screen
 	var snd:Sound;
 	
 	var volume:Float = 0.2;
-	
+
 	public function new()
 	{
 		super();
 	}
 
+	// loads the background, the buttons and the music
 	override public function onLoad():Void
 	{
 
@@ -118,6 +116,7 @@ class MenuScreen extends Screen
 		addEventListener( Event.ENTER_FRAME, update );
 	}
 
+	// makes layer with clouds move 
 	public function update(e:Event)
 	{
 		var now:Int = Lib.getTimer();
@@ -141,7 +140,7 @@ class MenuScreen extends Screen
 			snd.play( 0, 1, sTransform );
 		}
 		channel.stop();
-		Main.sm.changeScreen(ScreenType.Lev1);
+		Main.sm.changeScreen(ScreenType.Story);
 	}
 	
 	private function onQuitClick()// run game when button is pressed
@@ -150,9 +149,7 @@ class MenuScreen extends Screen
 		{
 			snd.play( 0, 1, sTransform );
 		}
-		#if flash
 		Lib.fscommand("quit");
-		#end
 	}
 
 	

@@ -16,20 +16,25 @@ import openfl.media.Sound;
 import openfl.media.SoundChannel;
 import openfl.media.SoundTransform;
 
+//@author Rutger
+// screen for the first playable level
 class Level1 extends Screen
 {
 	
 	var volume:Float = 0.15;
-
+	var enemyAmount = 8;
+	var rEnemyAmount = 4;
+	
 	public function new()
 	{
 		super();
 	}
 
+	// loads background, music, characters, UI and eventlisteners
 	override public function onLoad():Void
 	{
 
-		var backData : BitmapData = Assets.getBitmapData( "assets/tempbackground1.png" );
+		var backData : BitmapData = Assets.getBitmapData( "assets/BackgroundLevelOne.png" );
 		var back : Bitmap = new Bitmap( backData );
 		addChild( back );
 
@@ -52,15 +57,15 @@ class Level1 extends Screen
 		{
 			channel = theme.play( 0, 10000,new SoundTransform( volume, 0 ));
 		}
-		
 
-		displayHearts();
+		displayUI();
 
 		addEventListener( Event.ENTER_FRAME, update );
 
 	}
 
-	function displayHearts()
+	// loads hearts that signify health and a bar which shows how many enemies are left
+	function displayUI()
 	{
 
 		heartFullBMD = Assets.getBitmapData("UI/HPfill.png"); //load and display background
@@ -103,8 +108,31 @@ class Level1 extends Screen
 		addChild(heart04);
 		addChild(heart05);
 
+		var timebar : Bitmap = new Bitmap( Assets.getBitmapData("UI/TimerBar.png") );
+		addChild(timebar);
+		timebar.x = 1400;
+		timebar.y = 45;
+		timebar.scaleX = 1.5;
+		timebar.scaleY = 4;
+
+		timehead = new Bitmap( Assets.getBitmapData("UI/TimerHead.png") );
+		addChild(timehead);
+		timehead.x = /*1715*/1380;
+		timehead.y = 125;
+		timehead.scaleX = 3;
+		timehead.scaleY = 3;
+
+		totalEn = enemyAmount + rEnemyAmount;
+		for (ene in 0...totalEn) {
+
+			timehead.x +=  (335 / totalEn);
+
+		}
+
 	}
 
+	// checks for and adjusts health hearts
+	// checks if all enemies are defeated and continues to next level if so 
 	public function update(e:Event)
 	{
 		var playerHP:Int = player.getHealth();
@@ -156,14 +184,35 @@ class Level1 extends Screen
 				heart01.bitmapData = heartEmptyBMD;
 			}
 		}
+
+		if ( enemyCount == enemyAmount && rEnemyCount == rEnemyAmount && enemy.length == 0 && rollEnemy.length == 0 ) {
+
+			elvCount++;
+			if ( elvCount == 1 ) { 
+
+				elv = new Elevator();
+				addChild(elv);
+				addChild(player);
+			}
+
+			if (elvCount == 120 ) {	
+				
+				deleteLevel();
+				Main.sm.changeScreen(ScreenType.Lev2);
+			
+			}
+
+		}
+
 	}
 
+	// spawns the enemies randomly left or right of the screen, timer to control how often they spawn
 	function spawnEnemy( event : Event ) {
 
-		if ( enemyCount < 3) {
+		if ( enemyCount < enemyAmount) {
 			timer++;
 
-			if (timer == 500) {
+			if (timer == 220) {
 
 				enemySpawn = new Enemy( this, player, Std.random(2) == 0 ? 1100 : -150);
 				enemy.push(enemySpawn);
@@ -177,10 +226,10 @@ class Level1 extends Screen
 
 		}
 
-		if ( rEnemyCount < 2 ) {
+		if ( rEnemyCount < rEnemyAmount ) {
 			sTimer++;
 
-			if (sTimer == 600 ) {
+			if (sTimer == 390 ) {
 
 				rEnemySpawn = new SecondEnemy(this, player, Std.random(2) == 0 ? 2000 : -400);
 				rollEnemy.push(rEnemySpawn);
@@ -196,12 +245,11 @@ class Level1 extends Screen
 
 	}
 
-	
-
+	// deletes eventlisteners, characters and music
 	override public function deleteLevel():Void {
 
 		removeEventListener(Event.ENTER_FRAME, spawnEnemy);
-		removeEventListener( Event.ENTER_FRAME, update );
+		removeEventListener(Event.ENTER_FRAME, update );
 
 		for (en in enemy) {
 			
@@ -219,15 +267,12 @@ class Level1 extends Screen
 			
 		}
 
+		elv = null;
+		channel.stop();
+		channel = null;
+
 		player = null;
 				
-
-		Main.sm.changeScreen(ScreenType.Menu);
-		
-		//stage.removeChildren();
-		
-		//removeChildren();
-		
 
 	}
 

@@ -1,10 +1,16 @@
 package screens;
 
-// for explanation on see: http://haxe.org/manual/types-enum-instance.html or http://haxecoder.com/post.php?id=13
-// for now, see them as identifiers of something. in this case a screen must be either the menu screen or the game screen
+//@author Rutger & Lynette
+// sets enums for every screentype
 enum ScreenType
 {
 	Menu;
+	Story;
 	Lev1;
+	Lev2;
+	Lev3;
+	Lev4;
+	Lev5;
+	Win;
 	GameOver;
 }
