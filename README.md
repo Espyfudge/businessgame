@@ -1,4 +1,4 @@
-# bussinessgame
+# bussinessman
 
 Created by: <br>
   Vilius Zlibinas <br>
